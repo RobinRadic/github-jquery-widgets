@@ -1,0 +1,9 @@
+{
+  "generator-radic": {
+    "appname": "github-widgets",
+    "type": "node",
+    "generated": [
+      "project"
+    ]
+  }
+}
