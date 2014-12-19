@@ -1,16 +1,51 @@
+/** @fileoverview githubProfile - A jQuery plugin that shows a user profile with it's top repos/languages
+ *
+ * jQuery Github Profile Widget is a plugin that shows a github user profile with top repositories, languages, followers etc.
+ * Highly customizable options. Multiple ways to build and include into your project.
+ *
+ *
+ * @author Robin Radic
+ * @copyright Robin Radic 2014
+ * @license MIT License
+ * @link https://github.com/robinradic/jquery-github-widgets
+ * @link http://radic.mit-license.org
+ * @version 0.0.1
+ * @summary A jQuery plugin that shows a user profile with it's top repos/languages
+ */
 (function (factory) {
 
         factory(jQuery, radic);
 
 }(function ($, R) {
-
     R.template.registerHelper('arrayIndex', function (context, ndx) {
         return context[ndx];
     });
 
-    $.widget('radic.githubProfile', $.radic.base, {
+    /**
+     * @namespace radic
+     * @namespace radic.githubProfile
+     */
+    $.widget('radic.githubProfile', $.radic.base, /** @lends radic.githubProfile */ {
         version: '0.0.1',
 
+        /**
+         * Default options
+         * @property {Object}  options - the default options
+         * @property {String}  options.username - the user login name or id
+         * @property {Boolean}  options.showProfile - Show user details
+         * @property {Boolean}  options.showFollow - Show follow button
+         * @property {Boolean}  options.showLanguages - Show top langauges
+         * @property {String}  options.showRepositories - Show top repositories
+         * @property {String}  options.template - Template id used by Handlebars
+         * @property {String}  options.className - Root element class name
+         * @property {Boolean}  options.spinner - Use spinner while loading
+         * @property {Object}  options.spinnerOptions - Spinner options
+         * @property {String}  options.sortBy - 'stars' or 'updateTime'
+         * @property {String}  options.repositoriesHeaderText - Header caption
+         * @property {Number}  options.repositoriesLimit - Limit the amount of repositories shown
+         * @property {String}  options.languagesHeaderText - Header caption
+         * @property {Number}  options.languagesLimit - Limit the amount of languages shown
+         */
         options: {
             username: null,
 
@@ -19,7 +54,7 @@
             showLanguages: true,
             showRepositories: true,
 
-            template: 'widget.github.profile',
+            template: 'github.profile',
             className: 'gh-profile-widget',
 
             spinner: true,
@@ -27,13 +62,22 @@
 
             sortBy: 'stars', // possible: 'stars', 'updateTime'
             repositoriesHeaderText: 'Most starred repositories',
-            repositoriesDateFormat: 'lll',
             repositoriesLimit: 5,
 
             languagesHeaderText: 'Top languages',
-            languagesLimit: 7
+            languagesLimit: 5
         },
+        /**
+         * Events
+         * @property {Function}  options.create - Limit the amount of languages shown
+         */
 
+        /**
+         *
+         * @param disable
+         * @returns {*}
+         * @private
+         */
         _spin: function(disable){
             if(this.options.spinner === true){
                 if(typeof disable === 'boolean' && disable === false){
@@ -41,134 +85,174 @@
                 }
                 this.element.spin(this.options.spinnerOptions);
             }
+
         },
 
+        /**
+         * Refreshes the data and repaints the widget. Usefull in case of option changes
+         * @example
+         * $('#thewidget').githubProfile('refresh');
+         */
         refresh: function(){
             var self = this;
+            self.data = {};
+            self._trigger('refresh');
+            self.element.html('');
             self._spin();
-
-            self._getData(function (data) {
+            self._getData(function () {
                 self._spin(false);
-                var $template = self._compile(self.options.template, data);
-                self.element.html($template);
-                self._trigger('completed', null);
+                self.repaint();
+                self._trigger('refreshed');
             });
         },
 
+        /**
+         * Repaints the widget. Usefull in case of option changes
+         */
+        repaint: function(){
+            var self = this;
+            self._trigger('repaint');
+            self.element.html('');
+            var $template = self._compile(self.options.template, $.extend({ options: self.options }, self.data));
+            self.element.html($template);
+            self._trigger('repainted');
+        },
+
         _create: function () {
-            if(this.options.username === null || ! _.isString(this.options.username)){
+            if(this.options.username === null || ! R.isString(this.options.username)){
                 console.error('githubProfile widget has been initialized without the required username option');
                 return;
             }
+
             this.refresh();
         },
 
+        _trigger: function(name, event, param){
+            this._super(name, event, typeof param === 'undefined' ? [this.options, this.data] : param);
+        },
         _sortLanguages: function (languages) {
-            this._trigger('beforeSortLanguages', null, languages);
+            var self = this;
             var topLangs = [];
             for (var k in languages) {
                 topLangs.push([k, languages[k]]);
             }
-
             topLangs.sort(function (a, b) {
                 return b[1] - a[1];
             });
-            this._trigger('afterSortLanguages', null, topLangs);
             return topLangs.slice(0, this.options.languagesLimit);
         },
 
-        _sortRepositories: function (reposData) {
-            this._trigger('beforeSortRepositories', null, reposData);
+        _sortRepositories: function (repositories) {
             var self = this;
-            reposData.sort(function (a, b) {
-                // sorted by last commit
+            repositories.sort(function (a, b) {
                 if (self.options.sortBy == 'stars') {
                     return b.stargazers_count - a.stargazers_count;
                 } else {
                     return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
                 }
             });
-            this._trigger('afterSortRepositories', null, reposData);
-            return reposData.slice(0, self.options.repositoriesLimit);
+            return repositories.slice(0, self.options.repositoriesLimit);
         },
 
         _getData: function (callback) {
             var self = this;
             var username = this.options.username;
-            radic.async.waterfall([
-                function (done) {
-                    //sradic.github.setTransport('')
-                    var u = radic.github.users(username, function (userData, second) {
-                        self._trigger('onReceivedUser', null, userData);
-                        console.info('even more data', userData, radic.defined(second) ? second : 'no second');
 
-                        done(null, userData);
+            R.async.waterfall([
+                function (done) {
+                    //sR.github.setTransport('')
+                    var u = R.github.users(username, function (userData, second) {
+                        self.data.user = userData;
+                        self._trigger('onReceivedUser'); //, null, self.options);
+                        //console.info('even more data', userData, R.defined(second) ? second : 'no second');
+
+                        done(null);
                     });
                     console.log('u2', u);
                 },
-                function (userData, done) {
+                function (done) {
 
-                    radic.github.users.repos(username, null, 1, 100, function (repoData) {
-                        self._trigger('onReceivedRepositories', null, repoData);
-                        done(null, {user: userData, repos: repoData});
+                    R.github.users.repos(username, null, 1, 100, function (repositories) {
+                        self.data.repositories = repositories;
+                        self._trigger('onReceivedRepositories'); //, null, {repoData:repoData}, self.options);
+                        done(null); //, {user: userData, repos: repoData});
                     })
                 },
-                function (apiData, done) {
-                    apiData.languages = {};
+                function (done) {
+                    self.data.languages = {};
 
-                    radic.async.each(apiData.repos, function(repo, next){
+                    R.async.each(self.data.repositories, function(repo, next){
 
-                        repo.updated_at_formatted = moment(repo.updated_at).format(self.options.repositoriesDateFormat);
+                        repo.updated_at_formatted = radic.time.ago(repo.updated_at);
                         var doLang = function(langData){
                             $.each(langData, function(i, lang){
-                                if(typeof apiData.languages[i] === 'undefined'){
-                                    apiData.languages[i] = lang;
+                                if(typeof self.data.languages[i] === 'undefined'){
+                                    self.data.languages[i] = lang;
                                 } else {
-                                    apiData.languages[i] += lang;
+                                    self.data.languages[i] += lang;
                                 }
                             });
                         };
 
-                        var cached = radic.storage.get('github-profile-widget-languages', {json: true});
+                        var cached = R.storage.get('github-profile-widget-languages', {json: true});
                         if(cached) {
-                            apiData.languages = cached.languages;
+                            self.data.languages = cached.languages;
                             next();
                         } else {
-                            radic.github.repos.languages(username, repo.name, function (langData) {
+                            R.github.repos.languages(username, repo.name, function (langData) {
                                 doLang(langData);
-                                radic.storage.set('github-profile-widget-languages', {languages: apiData.languages}, {expires: 60, json: true});
+                                R.storage.set('github-profile-widget-languages', {languages: self.data.languages}, {expires: 60, json: true});
                                 next();
                             });
                         }
                     }, function(){
 
-                        done(null, apiData)
+                        done(null)
                     })
                 },
-                function (data, done) {
-                    data.topRepos = self._sortRepositories(data.repos);
-                    done(null, data)
+                function (done) {
+                    self._trigger('beforeSortRepositories');
+                    self.data.repositories = self._sortRepositories(self.data.repositories);
+                    self._trigger('afterSortRepositories');
+                    done(null)
                 },
-                function (data, done) {
-                    data.topLanguages = self._sortLanguages(data.languages);
-                    callback(data);
+                function (done) {
+                    self._trigger('beforeSortLanguages');
+                    self.data.languages = self._sortLanguages(self.data.languages);
+                    self._trigger('afterSortLanguages');
                     done(null);
 
                 }
-            ])
+            ], function(err, result){
+                callback();
+            })
         },
+
 
         _destroy: function () {
             this.element.html('');
-            self._trigger('destroyed', null);
+            this._trigger('destroyed', null);
         },
 
         _setOption: function (key, value) {
-            if (key === "disabled") {
-                this.element
-                    .toggleClass("ui-state-disabled", !!value)
-                    .attr("aria-disabled", value);
+
+            this._super(key, value);
+
+
+            if(key === 'username'){
+                this.refresh();
             }
+        },
+
+        /**
+         * Get or set an option
+         * @param {String} key
+         * @param value
+         * @example
+         * var username = $('#mywidget').githubProfile('option', 'username');
+         * $('#mywidget').githubProfile('option', 'username', 'AwesomeJohn');
+         */
+        option: function(key, value){
             this._super(key, value);
         }
     });

@@ -20,6 +20,9 @@ module.exports = function (grunt) {
             },
             'github-profile': {
                 minify: true
+            },
+            'github-events': {
+                minify: true
             }
         },
         subgrunt: {
@@ -35,18 +38,29 @@ module.exports = function (grunt) {
                     src: '**/*.js',
                     dest: 'dist/dep/'
                 }]
+            },
+            dist2demo: {
+                files: [{
+                    expand: true,
+                    cwd: 'lib/radicjs/<%= config.radicjs.dest %>',
+                    src: '**/*.js',
+                    dest: 'dist/dep/'
+                }]
             }
         },
         clean: {
             radicjsdist: ['lib/radicjs/<%= config.radicjs.dest %>']
+        },
+        watch: {
+            widgets: {
+                files: ['src/**/*', '!src/**/*.tpls.js'],
+                tasks: ['build:widgets']
+            }
         }
 
     };
 
     require('load-grunt-tasks')(grunt);
-
-
-    grunt.registerTask('build:dep', 'Builds dependencies', ['subgrunt:radicjs', 'copy:radicjs2dist', 'clean:radicjsdist']);
 
     grunt.registerTask('widget', 'List widgets or use widget:WIDGETNAME to build the widget', function (target) {
         if (target) {
@@ -57,10 +71,23 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('build:all', [
+    grunt.registerTask('build:dep', 'Builds dependencies', ['subgrunt:radicjs', 'copy:radicjs2dist', 'clean:radicjsdist']);
+
+    grunt.registerTask('build:widgets', 'Builds all widgets', function (target) {
+        var tasks = [];
+        _.each(config.widgets, function(widgetName){
+            tasks.push('build_widget:github-' + widgetName);
+        });
+        grunt.task.run(tasks)
+    });
+
+    grunt.registerTask('build:all', 'Builds all widgets, dependencies and creates minified versions to the dist folder', [
         'build:dep'
     ]);
 
+    grunt.registerTask('demo:build', 'Create demonstration github pages from current dist', ['copy:dist2demo']);
+    grunt.registerTask('demo:publish', 'Publish demonstration to github pages', ['copy:dist2demo']);
+    grunt.registerTask('publish', 'Builds dependencies, widgets, demo. Increases version number, creates a git tag and pushes it to remote', ['copy:dist2demo']);
 
     gc.availabletasks = {           // task
         tasks: {
@@ -69,15 +96,17 @@ module.exports = function (grunt) {
                 showTasks: ['user'],
                 tasks: ['default', 'showtime', 'header'],
                 groups: {
-                    'Build tasks': ['build:all', 'build:dep', 'widget'],
+                    'Deploy': ['demo:build', 'demo:publish', 'publish'],
+                    'Build tasks': ['build:all', 'build:dep', 'build:widgets', 'widget'],
                     'Development': ['watch']
                 }
             },
             descriptions: {
-                'build:all': 'Builds all widgets, dependencies and creates minified versions to the dist folder',
-                'build:dep': 'Task',
-                'widget': 'Task',
-                'watch': 'Task'
+                'build:all': '',
+                'build:dep': '',
+                'widget': '',
+                'watch': 'Task',
+                'demo:build': ''
             }
         }
     };                          // target

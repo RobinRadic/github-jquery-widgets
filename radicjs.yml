@@ -17,5 +17,5 @@ builds:
   githubwidgets:
     filename: radic.githubwidgets
     ignoredeps: [ github/oauthio ]
-    modules: [ base, core, github, spinner, template, template/general, template/comparisons, widgets, exports/amd, exports/global ]
+    modules: [ base, core, async/waterfall, async/each, github, spinner, template, template/general, template/comparisons, time/ago, widgets, exports/amd, exports/global ]
     lodash: [ omit, pick, values, keys, where, cloneDeep, isUndefined, isNumber, isBoolean, isNull, isDate, toArray ]

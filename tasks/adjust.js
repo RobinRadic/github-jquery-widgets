@@ -1,3 +1,6 @@
+
+var _ = require('lodash');
+
 module.exports = function(grunt){
 
     var origHeader = grunt.log.header;

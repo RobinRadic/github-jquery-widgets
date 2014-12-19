@@ -22,7 +22,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{#each topLanguages}}
+                    {{#each languages}}
                         <tr>
                             <td>{{arrayIndex this 0}}</td>
                             <td>
@@ -38,7 +38,7 @@
         {{#if options.showRepositories}}
             <div class="repos">
                 {{#if options.repositoriesHeaderText}}<span class="header">{{options.repositoriesHeaderText}}</span>{{/if}}
-                {{#each topRepos}}
+                {{#each repositories}}
                     <a href="{{html_url}}" title="{{description}}">
                         <span class="repo-name">{{name}}</span><span class="updated">Updated: {{updated_at_formatted}}</span><span class="star">{{stargazers_count}}</span>
                     </a>

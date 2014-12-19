@@ -1,0 +1,38 @@
+.github-events-widget li .col1 .cont .cont-col1 .label {
+  padding: 6px 4px 6px 5px;
+}
+.github-events-widget li .col1 .cont .cont-col1 i.fa {
+  font-size: 16px;
+}
+.github-events-widget li .col1 .cont .cont-col2 .desc {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.github-events-widget li .col1 .cont .cont-col2 .desc .label {
+  padding: 6px !important;
+}
+.github-events-widget li .col1 .cont .cont-col2 .desc img {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.github-events-widget li .col1 .cont .cont-col2 .desc .btn-xs {
+  padding: 4px 5px;
+  padding-right: 8px;
+}
+.github-events-widget li .col1 .cont .cont-col2 .desc .branch, .github-events-widget li .col1 .cont .cont-col2 .desc .tagged, .github-events-widget li .col1 .cont .cont-col2 .desc .commits {
+  width: 100px;
+  display: inline-block;
+}
+.github-events-widget li .col2 {
+  width: 110px;
+  margin-left: -110px;
+}
+
+.popover-content > .github-events-commits .in .message {
+  margin-left: 10px;
+}
+.popover-content > .github-events-commits .out .message {
+  margin-right: 10px;
+}

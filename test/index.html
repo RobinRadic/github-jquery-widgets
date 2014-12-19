@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Github Widgets</title>
+
+    <!-- 3rd party -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- my -->
+
+    <script src="../dist/dep/packed/radic.githubwidgets.packed.js"></script>
+    <script src="../dist/github-profile.js"></script>
+    <link href="../dist/github-profile.css" rel="stylesheet" type="text/css">
+
+
+    <!-- demo -->
+    <style type="text/css">
+        html, body, h1, h2, h3,h4,h5,h6 {
+            font-family: "Open Sans", sans-serif, Verdana;
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        .row {
+            margin-bottom: 20px;
+        }
+        .row h2 {
+            text-align: center;
+        }
+
+        .demo-events p {
+            margin: 0;
+            font-size: 11px;
+        }
+    </style>
+    <script>
+        R.githubCredentials.token = '06ec61fd2853f215bb01f7c5b2e0f56ff8537838';
+        $(function(){
+            var $profile = $('#demo-profile'),
+                $events = $('#demo-events');
+
+            var ename = function(e, name){
+                return e.type.replace('github', '').replace(name, '')
+            };
+
+            var createWidget = function(name){
+                var container = $('#demo-' + name);
+                var widget = $(document.createElement('div'));
+                var events = $(document.createElement('div'));
+                container.addClass('row').append(widget.addClass('col-md-6 demo-widget')).append(events.addClass('col-md-6 demo-events'));
+
+                return {
+                    container: container,
+                    widget: widget,
+                    events: events,
+                    onEvent: function(e, opts, data){
+                        console.log(ename(e, name), { event: e, options: opts, data: typeof data !=='undefined' ? R.cloneDeep(data) : null});
+                        events.append('<p><strong>' + ename(e, name) + '</strong></p>')
+                    }
+                }
+            };
+            var widgets = {
+                profile: createWidget('profile')
+            };
+
+
+
+            $('#site .btn-group a').on('click', function(e) {
+                e.preventDefault();
+            });
+            $('#reset-local-storage').on('click', function(e){
+                R.storage.clear();
+            });
+
+            initProfile();
+
+
+
+            function initProfile() {
+                $('.profile-change-user').on('click', function (e) {
+                    var username = $(this).text();
+                    widgets.profile.widget.githubProfile('option', 'username', username);
+                });
+                $('.profile-refresh').on('click', function (e) {
+                    widgets.profile.widget.githubProfile('refresh');
+                });
+
+                widgets.profile.widget.githubProfile({
+                    // options
+                    username: 'RobinRadic',
+
+                    showProfile: true,
+                    showFollow: true,
+                    showLanguages: true,
+                    showRepositories: true,
+
+                    template: 'github.profile',
+                    className: 'gh-profile-widget',
+
+                    spinner: true,
+                    spinnerOptions: {},
+
+                    sortBy: 'stars', // possible: 'stars', 'updateTime'
+                    repositoriesHeaderText: 'Most starred repositories',
+                    repositoriesDateFormat: 'lll',
+                    repositoriesLimit: 5,
+
+                    languagesHeaderText: 'Top languages',
+                    languagesLimit: 5,
+
+                    // events
+                    create: widgets.profile.onEvent,
+                    refresh: widgets.profile.onEvent,
+                    beforeSortLanguages: widgets.profile.onEvent,
+                    afterSortLanguages: widgets.profile.onEvent,
+                    beforeSortRepositories: widgets.profile.onEvent,
+                    afterSortRepositories: widgets.profile.onEvent,
+                    onReceivedUser: widgets.profile.onEvent,
+                    onReceivedRepositories: function(e, opts, data){
+                        //data.repositories = data.repositories.slice(2, 4);
+                        //console.log('data:', R.cloneDeep(data));
+                        widgets.profile.onEvent.apply(widgets.profile, R.toArray(arguments));
+                    },
+                    refreshed: widgets.profile.onEvent,
+                    repaint: widgets.profile.onEvent,
+                    repainted: widgets.profile.onEvent,
+                    destroyed: widgets.profile.onEvent
+                });
+            }
+        })
+    </script>
+</head>
+<body>
+
+<div id="site">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+            <div class="btn-group">
+                <a href="#" id="reset-local-storage" class="btn btn-primary btn-sm">Reset local storage</a>
+            </div>
+                </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2>Github Profile Widget</h2>
+                <div class="btn-group">
+                    <a href="#" class="btn btn-primary btn-xs profile-change-user">robinradic</a>
+                    <a href="#" class="btn btn-primary btn-xs profile-change-user">darkspotinthecorner</a>
+                    <a href="#" class="btn btn-primary btn-xs profile-change-user">graystevens</a>
+                </div>
+                <div class="btn-group">
+                    <a href="#" class="btn btn-primary btn-xs profile-refresh">Refresh</a>
+                </div>
+
+                <div id="demo-profile"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

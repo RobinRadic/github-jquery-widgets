@@ -1,0 +1,55 @@
+<script type="text/x-handlebars-template">
+    <div class="portlet-body">
+        <div class="scroller" style="height: {{height}}px;" data-always-visible="1" data-rail-visible="0">
+            <table>
+                <tr>
+                    <td>
+                        <div class="label label-sm label-success">
+                            <i class="fa fa-save"></i>
+                        </div>
+                    </td>
+                    <td>text</td>
+                    <td>date</td>
+                </tr>
+            </table>
+            <ul class="feeds github-events-widget">
+                <li>
+                    <div class="icon">
+                        <div class="label label-sm label-success">
+                            <i class="fa fa-save"></i>
+                        </div>
+                    </div>
+                    <div class="content">
+                        text
+                    </div>
+                    <div class="time">
+                        2 days
+                    </div>
+                </li>
+                {{#each events}}
+                <li data-event-id="{{id}}" data-event-index="{{@key}}">
+                    <div class="col1">
+                        <div class="cont">
+                            <div class="cont-col1">
+                                <div class="label label-sm label-{{iconColor}}">
+                                    <i class="{{icon}}"></i>
+                                </div>
+                            </div>
+                            <div class="cont-col2">
+                                <div class="desc">
+                                    {{text}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2">
+                        <div class="date">
+                            {{timeAgo}}
+                        </div>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</script>
