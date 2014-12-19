@@ -1,0 +1,7 @@
+var grunt = require('grunt');
+var tg = require('time-grunt');
+var hooker = require('hooker');
+tg(grunt);
+grunt.event
+grunt.util
+var gruntfile = require('./Gruntfile');

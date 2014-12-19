@@ -3,3 +3,5 @@
 /composer
 /vendor
 /.idea/
+/.sass-cache
+/demo
