@@ -4,27 +4,55 @@
 (function (factory) {
     factory(jQuery, radic);
 }(function ($, R) {
+    var texts = {
+        _compile: function (template, data, options) {
+            options = options || {};
+            return $(Handlebars.templates['github.events.' + template](data)).html();
+        },
+        issue: function (issue, options) {
+            options = options || {};
+            return this._compile('actor', $.extend({actor: actor}, options));
+        },
+        tag: function (payload, options) {
+            options = options || {};
+            return this._compile('tag', $.extend({tag: payload.ref, description: payload.description, decorator: this}, options));
+        },
+        user: function (user, options) {
+            options = options || {};
+            return this._compile('user', $.extend(user, options));
+        },
 
-    $.widget('radic.githubEvents', $.radic.base, {
+        repo: function (repo, options) {
+            options = options || {};
+            return this._compile('repo', $.extend({repo: repo}, options));
+        },
+        commits: function (event, options) {
+            options = options || {};
+            return this._compile('commits', $.extend({event: event}, options));
+        },
+        branch: function (event, options) {
+            options = options || {};
+            return this._compile('branch', $.extend({event: event}, options));
+        }
+    };
+
+    $.widget('radic.githubEvents', $.github.widget, {
         version: '0.0.1',
         options: {
             username: '',
 
-            template: 'github.profile',
-            className: 'gh-profile-widget',
-
-            spinner: true,
-            spinnerOptions: {},
+            template: 'github.events',
+            className: 'gh-events-widget',
 
 
             useSpinner: true,
             max: 60,
-
+            height: 300,
 
             output: {
                 template: {
-                    title: 'Recent events',
-                    height: 300
+                    title: 'Recent events'
+
                 },
                 events: {
                     default: {
@@ -39,15 +67,26 @@
                     },
                     CreateEvent: {
                         icon: 'fa fa-plus',
-                        iconColor: 'success',
+                        iconColor: 'warning',
                         text: function (event) {
-                            /*
-                            var str = radic.github.theme.actor(event.actor);
-                            if (event.payload.ref_type === 'tag') str += radic.github.theme.tag(event.payload);
+                            var str = '';
 
-                            str += radic.github.theme.repo(event.repo);
-                            return str.replace("\n", "");
-                            */ return '';
+                             if (event.payload.ref_type === 'tag') {
+                                 this.icon = 'fa fa-tag';
+                                 this.iconColor = 'green';
+                                 str += texts.tag(event.payload);
+                                 str += " tagged by ";
+                             }
+
+                            str += '<div class="btn-group">';
+                            str += texts.user(event.actor, { icon: true, class: 'btn btn-xs btn-orange' });
+                            str += texts.repo(event.repo, { class: 'btn btn-xs btn-primary' });
+                            str += '</div>';
+                            //console.log('create event text', str);
+                            // str += event.repo.;
+                            //console.warn(this);
+                             return str.replace("\n", "");
+
                         }
                     },
                     DeleteEvent: {
@@ -104,11 +143,12 @@
                         icon: 'fa fa-exclamation-triangle',
                         iconColor: 'warning',
                         text: function (event) {
-                             /*
-                            var action = event.payload.action;
-                            action = action === 'started' ? 'starred' : action;
-                            return radic.github.theme.actor(event.actor) + ' ' + action + ' ' + radic.github.theme.issue(event.payload.issue);
-                              */ return '';
+                            /*
+                             var action = event.payload.action;
+                             action = action === 'started' ? 'starred' : action;
+                             return texts.actor(event.actor) + ' ' + action + ' ' + texts.issue(event.payload.issue);
+                             */
+                            return 'IssuesEvent has occured';
                         }
                     },
                     MemberEvent: {
@@ -139,14 +179,15 @@
                     PushEvent: {
                         icon: 'fa fa-save',
                         text: function (event) {
-                            /*
-                            return $(document.createElement('span'))
-                                .append(radic.github.theme.actor(event.actor))
-                                .append(radic.github.theme.branch(event))
-                                .append(radic.github.theme.commits(event))
-                                .append(' to ')
-                                .append(radic.github.theme.repo(event.repo)).html();
-                            */ return '';
+
+                             return $(document.createElement('span'))
+                             .append(texts.user(event.actor))
+                             .append(texts.branch(event))
+                             .append(texts.commits(event))
+                             .append(' to ')
+                             .append(texts.repo(event.repo)).html();
+
+                           // return 'PushEvent has occured';
                         },
                         iconColor: 'success'
                     },
@@ -168,16 +209,39 @@
                     WatchEvent: {
                         icon: 'fa fa-star',
                         text: function (event) {
-                             /*
-                            var action = event.payload.action;
-                            action = action === 'started' ? 'starred' : action;
-                            return radic.github.theme.actor(event.actor) + ' ' + action + ' ' + radic.github.theme.repo(event.repo);
-                              */ return '';
+                            /*
+                             var action = event.payload.action;
+                             action = action === 'started' ? 'starred' : action;
+                             return texts.actor(event.actor) + ' ' + action + ' ' + texts.repo(event.repo);
+                             */
+                            return 'WatchEvent has occured';
                         },
                         iconColor: 'warning'
                     }
                 }
             }
+        },
+
+        repaint: function () {
+            var self = this;
+            self._trigger('repaint');
+            var $template = self._compile(self.options.template, self.data);
+            self.element.html($template);
+            self._bindAll();
+            self._trigger('repainted');
+        },
+
+        refresh: function () {
+            var self = this;
+            self._trigger('refresh');
+            self.element.html('');
+            self._spin();
+            self._fetchEventData(function (data) {
+                self._spin(false);
+                self.data = $.extend({options: self.options}, data);
+                self.repaint();
+                self._trigger('refreshed');
+            });
         },
 
         _create: function () {
@@ -189,91 +253,47 @@
             };
 
             this.$widget = null;
-            if (this.options.useSpinner === true) {
-                this.element.spin();
-            }
 
             // Create a seperate copy of all event triggers and merge the defaults
             self.__events = {};
             $.each(this.options.output.events, function (type, event) {
                 if (type === 'default') return;
-                self.__events[type] = _.merge(_.cloneDeep(self.options.output.events.default), event);
+                self.__events[type] = $.extend(R.cloneDeep(self.options.output.events.default), event);
             });
 
-            self._fetchEventData(function (data) {
-                if (self.options.useSpinner === true) {
-                    self.element.spin(false);
-                }
-
-                var templateHTML = $(self.options.selectors.template).html();
-                var template = jQuery.template(templateHTML);
-                $.extend(data, self.options.output.template);
-                var $widget = template(data);
-                self.element.append($widget);
-                self._bindAll();
-            });
+            this.refresh();
         },
 
         _bindAll: function () {
             var self = this;
             var sel = this.options.selectors;
 
-            this.element.find('*[data-github-user]').popover({
-                html: true,
-                trigger: 'manual',
-                container: 'body',
-                placement: 'left',
-                content: function () {
-                    return self._popoverUser($(this).data('github-user'));
-                }
-            }).hover(function (e) {
-                e.preventDefault();
-                $(this).popover('toggle');
-            });
-
-            this.element.find('*[data-github-commits]').each(function () {
-                var c = $(this).data('github-commits');
-                $(this).popover({
-                    html: true,
-                    trigger: 'manual',
-                    container: 'body',
-                    placement: 'right',
-                    content: function () {
-
-                        return self._getTemplate('github-events-commits', {event: self.__cache.events[c]['raw']});
-                    }
-                }).hover(function (e) {
-                    e.preventDefault();
-                    $(this).popover('toggle');
-                });
-            });
-            this.element.find('*[data-github-issue]').tooltip({container: 'body'});
         },
 
         _fetchEventData: function (callback) {
             var self = this;
-            radic.github.users.events(this.options.username, 0, this.options.max, function (events) {
+            R.github.users.events(this.options.username, 0, this.options.max, function (events) {
+
                 var eventData = [];
                 for (var i = 0; i < events.length; i++) {
                     var event = self._getProcessedEvent(events[i]);
                     eventData.push(event);
-                    self.__cache.events[events[i].id] = event;
                 }
-                callback({
-                    events: eventData
-                });
+
+                callback({ events: eventData });
             });
         },
 
         _getProcessedEvent: function (eventData) {
             var self = this;
-            var event = _.cloneDeep(self.__events[eventData.type]);
-            if (_.isFunction(event.text)) {
-                event.text = event.text.apply(this, [eventData]);
+            var event = R.cloneDeep(self.__events[eventData.type]);
+            if (R.isFunction(event.text)) {
+                event.text = event.text.apply(event, [eventData]);
             }
             event.id = eventData.id;
             event.raw = eventData;
-            event.timeAgo = moment(eventData.created_at).fromNow(true);
+            event.timeAgo = R.time.ago(eventData.created_at);
+            event.time = eventData.created_at;
             return event;
         },
 
@@ -284,24 +304,6 @@
             }
             var user = self.__cache.users[username];
             return self._getTemplate('github-events-user-popover', {user: user});
-        },
-
-        _getTemplate: function (templateId, data) {
-            var templateHTML = $('script[data-template-id="' + templateId + '"]').html();
-            var template = jQuery.template(templateHTML);
-
-            var defaults = {
-                isset: function (val) {
-                    if (_.isUndefined(val)) {
-                        return false;
-                    }
-                    if (_.isString(val)) {
-                        return val.length > 0
-                    }
-                    return true;
-                }
-            };
-            return template($.extend(defaults, data));
         },
 
 

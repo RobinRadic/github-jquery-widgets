@@ -116,7 +116,7 @@ templates['github.profile'] = template({"1":function(depth0,helpers,partials,dat
      * @namespace radic
      * @namespace radic.githubProfile
      */
-    $.widget('radic.githubProfile', $.radic.base, /** @lends radic.githubProfile */ {
+    $.widget('radic.githubProfile', $.github.widget, /** @lends radic.githubProfile */ {
         version: '0.0.1',
 
         /**
@@ -148,8 +148,6 @@ templates['github.profile'] = template({"1":function(depth0,helpers,partials,dat
             template: 'github.profile',
             className: 'gh-profile-widget',
 
-            spinner: true,
-            spinnerOptions: {},
 
             sortBy: 'stars', // possible: 'stars', 'updateTime'
             repositoriesHeaderText: 'Most starred repositories',
@@ -162,22 +160,6 @@ templates['github.profile'] = template({"1":function(depth0,helpers,partials,dat
          * Events
          * @property {Function}  options.create - Limit the amount of languages shown
          */
-
-        /**
-         *
-         * @param disable
-         * @returns {*}
-         * @private
-         */
-        _spin: function(disable){
-            if(this.options.spinner === true){
-                if(typeof disable === 'boolean' && disable === false){
-                    return this.element.spin(false);
-                }
-                this.element.spin(this.options.spinnerOptions);
-            }
-
-        },
 
         /**
          * Refreshes the data and repaints the widget. Usefull in case of option changes
@@ -218,9 +200,6 @@ templates['github.profile'] = template({"1":function(depth0,helpers,partials,dat
             this.refresh();
         },
 
-        _trigger: function(name, event, param){
-            this._super(name, event, typeof param === 'undefined' ? [this.options, this.data] : param);
-        },
         _sortLanguages: function (languages) {
             var self = this;
             var topLangs = [];

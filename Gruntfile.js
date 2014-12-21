@@ -27,10 +27,46 @@ module.exports = function (grunt) {
         },
         subgrunt: {
             radicjs: {
-                'lib/radicjs': ['radicjs:githubwidgets', '--configfile=../../radicjs.yml']
+                'lib/radicjs': ['radicjs:githubwidgets', '--configfile=' + process.cwd() + '/radicjs.yml', '--stack']
+            }
+        },
+        sass: {
+            options: {
+                sourcemap: 'none'
+            },
+            bootstrap: {
+                src: 'src/bootstrap.scss',
+                dest: 'test/bootstrap.css'
+            },
+            ghwidgets: {
+                src: 'src/github-widgets.scss',
+                dest: 'dist/github-widgets.css'
+            }
+        },
+        preprocess: {
+            options: {
+                context: {
+                    DEBUG: true
+                }
+            },
+            testhtml: {
+                options: {
+                    inline: true
+                },
+
+                src: ['test/*.html']
             }
         },
         copy: {
+
+            srctest2test: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/test',
+                    src: '**',
+                    dest: 'test/'
+                }]
+            },
             radicjs2dist: {
                 files: [{
                     expand: true,
@@ -43,18 +79,31 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'lib/radicjs/<%= config.radicjs.dest %>',
-                    src: '**/*.js',
+                    src: ['**/*.js', '*.js'],
                     dest: 'dist/dep/'
                 }]
             }
         },
         clean: {
-            radicjsdist: ['lib/radicjs/<%= config.radicjs.dest %>']
+            radicjsdist: ['lib/radicjs/<%= config.radicjs.dest %>'],
+            radicjsyaml: ['radicjs.yml']
         },
         watch: {
             widgets: {
                 files: ['src/**/*', '!src/**/*.tpls.js'],
-                tasks: ['build:widgets']
+                tasks: ['header', 'build:widgets']
+            },
+            testhtml: {
+                files: ['src/test/**'],
+                tasks: ['header', 'copy:srctest2test', 'preprocess:testhtml']
+            },
+            bootstrapsass: {
+                files: ['src/bootstrap.scss', 'src/_base.scss'],
+                tasks: ['header', 'sass:bootstrap']
+            },
+            ghwidgets: {
+                files: ['src/github-widgets.scss'],
+                tasks: ['header', 'sass:ghwidgets']
             }
         }
 
@@ -63,6 +112,7 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('widget', 'List widgets or use widget:WIDGETNAME to build the widget', function (target) {
+        grunt.task.run('sass:ghwidgets');
         if (target) {
             grunt.task.run('build_widget:github-' + target);
         } else {
@@ -71,11 +121,11 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('build:dep', 'Builds dependencies', ['subgrunt:radicjs', 'copy:radicjs2dist', 'clean:radicjsdist']);
+    grunt.registerTask('build:dep', 'Builds dependencies', ['subgrunt:radicjs', 'copy:radicjs2dist']); //, 'clean:radicjsdist']);
 
     grunt.registerTask('build:widgets', 'Builds all widgets', function (target) {
-        var tasks = [];
-        _.each(config.widgets, function(widgetName){
+        var tasks = ['sass:ghwidgets'];
+        _.each(config.widgets, function (widgetName) {
             tasks.push('build_widget:github-' + widgetName);
         });
         grunt.task.run(tasks)
@@ -89,29 +139,7 @@ module.exports = function (grunt) {
     grunt.registerTask('demo:publish', 'Publish demonstration to github pages', ['copy:dist2demo']);
     grunt.registerTask('publish', 'Builds dependencies, widgets, demo. Increases version number, creates a git tag and pushes it to remote', ['copy:dist2demo']);
 
-    gc.availabletasks = {           // task
-        tasks: {
-            options: {
-                filter: 'exclude',
-                showTasks: ['user'],
-                tasks: ['default', 'showtime', 'header'],
-                groups: {
-                    'Deploy': ['demo:build', 'demo:publish', 'publish'],
-                    'Build tasks': ['build:all', 'build:dep', 'build:widgets', 'widget'],
-                    'Development': ['watch']
-                }
-            },
-            descriptions: {
-                'build:all': '',
-                'build:dep': '',
-                'widget': '',
-                'watch': 'Task',
-                'demo:build': ''
-            }
-        }
-    };                          // target
 
-
-    require('./tasks/adjust')(grunt);
     grunt.initConfig(gc);
+    require('./tasks/adjust')(grunt);
 };

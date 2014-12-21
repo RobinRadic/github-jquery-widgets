@@ -5,6 +5,28 @@ module.exports = function(grunt){
 
     var origHeader = grunt.log.header;
 
+    grunt.config('availabletasks', {           // task
+        tasks: {
+            options: {
+                filter: 'exclude',
+                showTasks: ['user'],
+                tasks: ['default', 'showtime', 'header'],
+                groups: {
+                    'Deploy': ['demo:build', 'demo:publish', 'publish'],
+                    'Build tasks': ['build:all', 'build:dep', 'build:widgets', 'widget'],
+                    'Development': ['watch']
+                }
+            },
+            descriptions: {
+                'build:all': '',
+                'build:dep': '',
+                'widget': '',
+                'watch': 'Task',
+                'demo:build': ''
+            }
+        }
+    });
+
     grunt.log.header = function () {
     };
 
@@ -14,6 +36,7 @@ module.exports = function(grunt){
 
 
     grunt.registerTask('default', 'Overview', function () {
+        origHeader('jQuery Github Widgets');
         grunt.task.run(['availabletasks']);
     });
     grunt.registerTask('header', function (target) {

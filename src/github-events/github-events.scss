@@ -1,52 +1,43 @@
-.github-events-widget {
+@import "../base";
+
+.gh-events-widget {
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    color: #666;
+    padding: 10px;
+    @include box-shadow(0 1px 6px rgba(0, 0, 0, 0.175));
+
     table {
-
+        width: 100%;
     }
-    li .col1 .cont {
-        .cont-col1 {
-            .label {
-                padding: 6px 4px 6px 5px;
-            }
-            i.fa {
-                font-size: 16px;
-            }
-        }
-        .cont-col2 .desc {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            .label {
-                padding: 6px !important;
-            }
-            img {
-                height: 20px;
-                width: 20px;
-                margin-right: 10px;
-                margin-left: 10px;
-            }
-            .btn-xs {
-                padding: 4px 5px;
-                padding-right: 8px;
-            }
-            .branch, .tagged, .commits {
-                width: 100px;
-                display: inline-block;
-            }
+    .gh-event {
+        border-bottom: 5px solid transparent;
+    }
 
+    .gh-events-icon {
+        width: 30px;
+        .label {
+            display: block;
+            height: 30px;
+        }
+        .fa {
+            font-size: 18px;
+            padding: 4px;
         }
     }
-    li .col2 {
 
-        width: 110px;
-        margin-left: -110px;
+    .gh-events-text {
+        padding-left: 10px;
     }
 
-}
+    .gh-events-time {
+        color: #999;
+        font-size: 80%;
+        text-align: right;
+        padding-right: 10px;
 
-.popover-content > .github-events-commits {
-    .in .message {
-        margin-left: 10px;
     }
-    .out .message {
-        margin-right: 10px;
-    }
+
+
 }

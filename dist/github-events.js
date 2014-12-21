@@ -11,28 +11,209 @@ Uses most of the original CSS
 */
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['github.events.branch'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
+  return "<script type=\"text/x-handlebars-template\">\n    <a href=\"https://github.com/"
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.repo : stack1)) != null ? stack1.name : stack1), depth0))
+    + "/commits/"
+    + escapeExpression(((helpers.branchName || (depth0 && depth0.branchName) || helperMissing).call(depth0, (depth0 != null ? depth0.event : depth0), {"name":"branchName","hash":{},"data":data})))
+    + "\" target=\""
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
+    + "\" class=\"btn branch "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs yellow-gold", {"name":"default","hash":{},"data":data})))
+    + "\">\n        "
+    + escapeExpression(((helpers.branchName || (depth0 && depth0.branchName) || helperMissing).call(depth0, (depth0 != null ? depth0.event : depth0), {"name":"branchName","hash":{},"data":data})))
+    + "\n    </a>\n</script>\n\n";
+},"useData":true});
+templates['github.events.commits'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda;
+  return "<script type=\"text/x-handlebars-template\">\n    <a href=\""
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.href : depth0), "#", {"name":"default","hash":{},"data":data})))
+    + "\" data-github-event=\""
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\" target=\""
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
+    + "\" class=\"btn "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs yellow commits", {"name":"default","hash":{},"data":data})))
+    + "\">\n        "
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.size : stack1), depth0))
+    + " commit"
+    + escapeExpression(((helpers.pushName || (depth0 && depth0.pushName) || helperMissing).call(depth0, (depth0 != null ? depth0.event : depth0), {"name":"pushName","hash":{},"data":data})))
+    + "\n    </a>\n</script>\n\n";
+},"useData":true});
 templates['github.events'] = template({"1":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda;
-  return "                <li data-event-id=\""
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda, buffer = "                <tr data-event-id=\""
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-event-index=\""
     + escapeExpression(lambda((data && data.key), depth0))
-    + "\">\n                    <div class=\"col1\">\n                        <div class=\"cont\">\n                            <div class=\"cont-col1\">\n                                <div class=\"label label-sm label-"
+    + "\" class=\"gh-event\">\n                    <td class=\"gh-events-icon\">\n                        <div class=\"label label-sm label-"
     + escapeExpression(((helper = (helper = helpers.iconColor || (depth0 != null ? depth0.iconColor : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"iconColor","hash":{},"data":data}) : helper)))
-    + "\">\n                                    <i class=\""
+    + "\">\n                            <i class=\""
     + escapeExpression(((helper = (helper = helpers.icon || (depth0 != null ? depth0.icon : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"icon","hash":{},"data":data}) : helper)))
-    + "\"></i>\n                                </div>\n                            </div>\n                            <div class=\"cont-col2\">\n                                <div class=\"desc\">\n                                    "
-    + escapeExpression(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper)))
-    + "\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col2\">\n                        <div class=\"date\">\n                            "
+    + "\"></i>\n                        </div>\n                    </td>\n                    <td class=\"gh-events-text\">";
+  stack1 = ((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"text","hash":{},"data":data}) : helper));
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</td>\n                    <td class=\"gh-events-time\"><time datetime=\""
     + escapeExpression(((helper = (helper = helpers.timeAgo || (depth0 != null ? depth0.timeAgo : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"timeAgo","hash":{},"data":data}) : helper)))
-    + "\n                        </div>\n                    </div>\n                </li>\n";
+    + "\">"
+    + escapeExpression(((helper = (helper = helpers.timeAgo || (depth0 != null ? depth0.timeAgo : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"timeAgo","hash":{},"data":data}) : helper)))
+    + "</time> <i class=\"fa fa-clock-o\"></i></td>\n                </tr>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<script type=\"text/x-handlebars-template\">\n    <div class=\"portlet-body\">\n        <div class=\"scroller\" style=\"height: "
-    + escapeExpression(((helper = (helper = helpers.height || (depth0 != null ? depth0.height : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"height","hash":{},"data":data}) : helper)))
-    + "px;\" data-always-visible=\"1\" data-rail-visible=\"0\">\n            <table>\n                <tr>\n                    <td>\n                        <div class=\"label label-sm label-success\">\n                            <i class=\"fa fa-save\"></i>\n                        </div>\n                    </td>\n                    <td>text</td>\n                    <td>date</td>\n                </tr>\n            </table>\n            <ul class=\"feeds github-events-widget\">\n                <li>\n                    <div class=\"icon\">\n                        <div class=\"label label-sm label-success\">\n                            <i class=\"fa fa-save\"></i>\n                        </div>\n                    </div>\n                    <div class=\"content\">\n                        text\n                    </div>\n                    <div class=\"time\">\n                        2 days\n                    </div>\n                </li>\n";
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "<script type=\"text/x-handlebars-template\">\n    <div  class=\""
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.options : depth0)) != null ? stack1.className : stack1), depth0))
+    + "\" style=\"height: "
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.options : depth0)) != null ? stack1.height : stack1), depth0))
+    + "px;\">\n            <table>\n";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.events : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "            </ul>\n        </div>\n    </div>\n</script>\n";
+  return buffer + "            </table>\n    </div>\n</script>\n";
+},"useData":true});
+templates['github.events.issue'] = template({"1":function(depth0,helpers,partials,data) {
+  var stack1, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<span class=\"label label-success\">@</span>"
+    + escapeExpression(((((stack1 = (depth0 && depth0.decorator)) && stack1.user) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.issue : depth0)) != null ? stack1.user : stack1), {"name":"decorator.user","hash":{},"data":data})));
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "<script type=\"text/x-handlebars-template\">\n    <a href=\"https://github.com/"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.issue : depth0)) != null ? stack1.html_url : stack1), depth0))
+    + "\" title=\""
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.issue : depth0)) != null ? stack1.title : stack1), depth0))
+    + "\" data-github-issue=\""
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.issue : depth0)) != null ? stack1.id : stack1), depth0))
+    + "\" target=\"_blank\" class=\"btn btn-xs yellow\">Issue "
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.issue : depth0)) != null ? stack1.number : stack1), depth0))
+    + "</a>\n    ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.createUserLink : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n</script>\n";
+},"useData":true});
+templates['github.events.repo'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<script type=\"text/x-handlebars-template\">\n    <a href=\""
+    + escapeExpression(((helper = (helper = helpers.href || (depth0 != null ? depth0.href : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"href","hash":{},"data":data}) : helper)))
+    + "\" target=\""
+    + escapeExpression(((helper = (helper = helpers.target || (depth0 != null ? depth0.target : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"target","hash":{},"data":data}) : helper)))
+    + "\" class=\"repo "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "label label-xs label-orange", {"name":"default","hash":{},"data":data})))
+    + "\" title=\""
+    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
+    + "\"><i class=\"fa fa-github-alt\"></i> "
+    + escapeExpression(((helpers.repoName || (depth0 && depth0.repoName) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.repo : depth0)) != null ? stack1.name : stack1), {"name":"repoName","hash":{},"data":data})))
+    + "</a>\n</script>\n\n";
+},"useData":true});
+templates['github.events.tag'] = template({"1":function(depth0,helpers,partials,data) {
+  return "<i class=\"fa fa-tag\"></i>";
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function", buffer = "<script type=\"text/x-handlebars-template\">\n    <a href=\""
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.href : depth0), "#", {"name":"default","hash":{},"data":data})))
+    + "\" target=\""
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
+    + "\" class=\"tagged "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "label label-xs label-green badge", {"name":"default","hash":{},"data":data})))
+    + "\" title=\""
+    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
+    + "\">\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.icon : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + " "
+    + escapeExpression(((helper = (helper = helpers.tag || (depth0 != null ? depth0.tag : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"tag","hash":{},"data":data}) : helper)))
+    + "</a>\n</script>\n";
+},"useData":true});
+templates['github.events.user'] = template({"1":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<img src=\""
+    + escapeExpression(((helper = (helper = helpers.avatar || (depth0 != null ? depth0.avatar : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"avatar","hash":{},"data":data}) : helper)))
+    + "\">";
+},"3":function(depth0,helpers,partials,data) {
+  return "            <i class='fa fa-user'></i>\n";
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function", buffer = "<script type=\"text/x-handlebars-template\">\n\n    <a href=\"https://github.com/"
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.login : depth0), (depth0 != null ? depth0.username : depth0), {"name":"default","hash":{},"data":data})))
+    + "\" target=\""
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
+    + "\" class=\""
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "label label-sm label-primary", {"name":"default","hash":{},"data":data})))
+    + "\"  "
+    + escapeExpression(((helper = (helper = helpers.attributes || (depth0 != null ? depth0.attributes : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"attributes","hash":{},"data":data}) : helper)))
+    + " >\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.avatar : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.icon : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "        "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.login : depth0), (depth0 != null ? depth0.username : depth0), {"name":"default","hash":{},"data":data})))
+    + "\n    </a>\n</script>\n\n";
+},"useData":true});
+templates['github.events.user.modal'] = template({"1":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "                        <div class=\"profile-usertitle-job\">"
+    + escapeExpression(((helper = (helper = helpers.company || (depth0 != null ? depth0.company : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"company","hash":{},"data":data}) : helper)))
+    + "</div>";
+},"3":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "                        <div class=\"profile-usertitle-job\">"
+    + escapeExpression(((helper = (helper = helpers.location || (depth0 != null ? depth0.location : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"location","hash":{},"data":data}) : helper)))
+    + "</div>";
+},"5":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "                        <span class=\"profile-desc-text\">"
+    + escapeExpression(((helper = (helper = helpers.bio || (depth0 != null ? depth0.bio : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"bio","hash":{},"data":data}) : helper)))
+    + "</span>\n";
+},"7":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "                        <div class=\"margin-top-20 profile-desc-link\">\n                            <i class=\"fa fa-pencil\"></i>\n                            <a href=\""
+    + escapeExpression(((helper = (helper = helpers.blog || (depth0 != null ? depth0.blog : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"blog","hash":{},"data":data}) : helper)))
+    + "\">Blog</a>\n                        </div>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<script type=\"text/x-handlebars-template\">\n    <div>\n        <div class=\"row row-col-border-right\">\n            <div class=\"col-md-3\">\n                <div class=\"profile-userpic\">\n                    <img src=\""
+    + escapeExpression(((helper = (helper = helpers.avatar_url || (depth0 != null ? depth0.avatar_url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"avatar_url","hash":{},"data":data}) : helper)))
+    + "\" class=\"img-responsive\" alt=\"\">\n                </div>\n                <div class=\"profile-usertitle\">\n                    <div class=\"profile-usertitle-name\">\n                        "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.name : depth0), (depth0 != null ? depth0.login : depth0), {"name":"default","hash":{},"data":data})))
+    + "\n                    </div>\n\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.company : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\n\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.location : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\n\n                </div>\n            </div>\n            <div class=\"col-md-4\">\n                <div class=\"row list-separated profile-stat\">\n                    <div class=\"col-md-4 col-sm-4 col-xs-6\">\n                        <div class=\"uppercase profile-stat-title\">\n                            "
+    + escapeExpression(((helper = (helper = helpers.public_repos || (depth0 != null ? depth0.public_repos : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"public_repos","hash":{},"data":data}) : helper)))
+    + "\n                        </div>\n                        <div class=\"uppercase profile-stat-text\">\n                            Repositories\n                        </div>\n                    </div>\n                    <div class=\"col-md-4 col-sm-4 col-xs-6\">\n                        <div class=\"uppercase profile-stat-title\">\n                            "
+    + escapeExpression(((helper = (helper = helpers.public_gists || (depth0 != null ? depth0.public_gists : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"public_gists","hash":{},"data":data}) : helper)))
+    + "\n                        </div>\n                        <div class=\"uppercase profile-stat-text\">\n                            Gists\n                        </div>\n                    </div>\n                    <div class=\"col-md-4 col-sm-4 col-xs-6\">\n                        <div class=\"uppercase profile-stat-title\">\n                            "
+    + escapeExpression(((helper = (helper = helpers.followers || (depth0 != null ? depth0.followers : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"followers","hash":{},"data":data}) : helper)))
+    + "\n                        </div>\n                        <div class=\"uppercase profile-stat-text\">\n                            Followers\n                        </div>\n                    </div>\n                </div>\n                <div>\n                    <h4 class=\"profile-desc-title\">About "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.name : depth0), (depth0 != null ? depth0.login : depth0), {"name":"default","hash":{},"data":data})))
+    + "</h4>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.bio : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.blog : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "                    <div class=\"margin-top-20 profile-desc-link\">\n                        <i class=\"fa fa-git\"></i>\n                        <a href=\""
+    + escapeExpression(((helper = (helper = helpers.html_url || (depth0 != null ? depth0.html_url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"html_url","hash":{},"data":data}) : helper)))
+    + "\">Github overview</a>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-5\">\n                <div class=\"user-modal-profile\"></div>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <div class=\"user-modal-events\"></div>\n            </div>\n        </div>\n    </div>\n</script>\n";
+},"useData":true});
+templates['github.events.user.popover'] = template({"1":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<div class=\"profile-usertitle-job\">"
+    + escapeExpression(((helper = (helper = helpers.company || (depth0 != null ? depth0.company : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"company","hash":{},"data":data}) : helper)))
+    + "</div>";
+},"3":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<div class=\"profile-usertitle-job\">"
+    + escapeExpression(((helper = (helper = helpers.loctation || (depth0 != null ? depth0.loctation : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"loctation","hash":{},"data":data}) : helper)))
+    + "</div>";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<script type=\"text/x-handlebars-template\">\n    <div class=\"github-events-user-popover\">\n        <div class=\"profile-userpic\">\n            <img src=\""
+    + escapeExpression(((helper = (helper = helpers.avatar_url || (depth0 != null ? depth0.avatar_url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"avatar_url","hash":{},"data":data}) : helper)))
+    + "\" class=\"img-responsive\" alt=\"\">\n        </div>\n        <div class=\"profile-usertitle\">\n            <div class=\"profile-usertitle-name\">\n                "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.name : depth0), (depth0 != null ? depth0.login : depth0), {"name":"default","hash":{},"data":data})))
+    + "\n            </div>\n\n            ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.company : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\n\n            ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.location : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n\n        </div>\n        <div class=\"profile-userbuttons\">\n            <span class=\"label label-info\"> Click for dropdown menu </span>\n        </div>\n    </div>\n</script>\n\n";
 },"useData":true});
 })();
 ;
@@ -42,27 +223,55 @@ templates['github.events'] = template({"1":function(depth0,helpers,partials,data
 (function (factory) {
     factory(jQuery, radic);
 }(function ($, R) {
+    var texts = {
+        _compile: function (template, data, options) {
+            options = options || {};
+            return $(Handlebars.templates['github.events.' + template](data)).html();
+        },
+        issue: function (issue, options) {
+            options = options || {};
+            return this._compile('actor', $.extend({actor: actor}, options));
+        },
+        tag: function (payload, options) {
+            options = options || {};
+            return this._compile('tag', $.extend({tag: payload.ref, description: payload.description, decorator: this}, options));
+        },
+        user: function (user, options) {
+            options = options || {};
+            return this._compile('user', $.extend(user, options));
+        },
 
-    $.widget('radic.githubEvents', $.radic.base, {
+        repo: function (repo, options) {
+            options = options || {};
+            return this._compile('repo', $.extend({repo: repo}, options));
+        },
+        commits: function (event, options) {
+            options = options || {};
+            return this._compile('commits', $.extend({event: event}, options));
+        },
+        branch: function (event, options) {
+            options = options || {};
+            return this._compile('branch', $.extend({event: event}, options));
+        }
+    };
+
+    $.widget('radic.githubEvents', $.github.widget, {
         version: '0.0.1',
         options: {
             username: '',
 
-            template: 'github.profile',
-            className: 'gh-profile-widget',
-
-            spinner: true,
-            spinnerOptions: {},
+            template: 'github.events',
+            className: 'gh-events-widget',
 
 
             useSpinner: true,
             max: 60,
-
+            height: 300,
 
             output: {
                 template: {
-                    title: 'Recent events',
-                    height: 300
+                    title: 'Recent events'
+
                 },
                 events: {
                     default: {
@@ -77,15 +286,26 @@ templates['github.events'] = template({"1":function(depth0,helpers,partials,data
                     },
                     CreateEvent: {
                         icon: 'fa fa-plus',
-                        iconColor: 'success',
+                        iconColor: 'warning',
                         text: function (event) {
-                            /*
-                            var str = radic.github.theme.actor(event.actor);
-                            if (event.payload.ref_type === 'tag') str += radic.github.theme.tag(event.payload);
+                            var str = '';
 
-                            str += radic.github.theme.repo(event.repo);
-                            return str.replace("\n", "");
-                            */ return '';
+                             if (event.payload.ref_type === 'tag') {
+                                 this.icon = 'fa fa-tag';
+                                 this.iconColor = 'green';
+                                 str += texts.tag(event.payload);
+                                 str += " tagged by ";
+                             }
+
+                            str += '<div class="btn-group">';
+                            str += texts.user(event.actor, { icon: true, class: 'btn btn-xs btn-orange' });
+                            str += texts.repo(event.repo, { class: 'btn btn-xs btn-primary' });
+                            str += '</div>';
+                            //console.log('create event text', str);
+                            // str += event.repo.;
+                            //console.warn(this);
+                             return str.replace("\n", "");
+
                         }
                     },
                     DeleteEvent: {
@@ -142,11 +362,12 @@ templates['github.events'] = template({"1":function(depth0,helpers,partials,data
                         icon: 'fa fa-exclamation-triangle',
                         iconColor: 'warning',
                         text: function (event) {
-                             /*
-                            var action = event.payload.action;
-                            action = action === 'started' ? 'starred' : action;
-                            return radic.github.theme.actor(event.actor) + ' ' + action + ' ' + radic.github.theme.issue(event.payload.issue);
-                              */ return '';
+                            /*
+                             var action = event.payload.action;
+                             action = action === 'started' ? 'starred' : action;
+                             return texts.actor(event.actor) + ' ' + action + ' ' + texts.issue(event.payload.issue);
+                             */
+                            return 'IssuesEvent has occured';
                         }
                     },
                     MemberEvent: {
@@ -177,14 +398,15 @@ templates['github.events'] = template({"1":function(depth0,helpers,partials,data
                     PushEvent: {
                         icon: 'fa fa-save',
                         text: function (event) {
-                            /*
-                            return $(document.createElement('span'))
-                                .append(radic.github.theme.actor(event.actor))
-                                .append(radic.github.theme.branch(event))
-                                .append(radic.github.theme.commits(event))
-                                .append(' to ')
-                                .append(radic.github.theme.repo(event.repo)).html();
-                            */ return '';
+
+                             return $(document.createElement('span'))
+                             .append(texts.user(event.actor))
+                             .append(texts.branch(event))
+                             .append(texts.commits(event))
+                             .append(' to ')
+                             .append(texts.repo(event.repo)).html();
+
+                           // return 'PushEvent has occured';
                         },
                         iconColor: 'success'
                     },
@@ -206,16 +428,39 @@ templates['github.events'] = template({"1":function(depth0,helpers,partials,data
                     WatchEvent: {
                         icon: 'fa fa-star',
                         text: function (event) {
-                             /*
-                            var action = event.payload.action;
-                            action = action === 'started' ? 'starred' : action;
-                            return radic.github.theme.actor(event.actor) + ' ' + action + ' ' + radic.github.theme.repo(event.repo);
-                              */ return '';
+                            /*
+                             var action = event.payload.action;
+                             action = action === 'started' ? 'starred' : action;
+                             return texts.actor(event.actor) + ' ' + action + ' ' + texts.repo(event.repo);
+                             */
+                            return 'WatchEvent has occured';
                         },
                         iconColor: 'warning'
                     }
                 }
             }
+        },
+
+        repaint: function () {
+            var self = this;
+            self._trigger('repaint');
+            var $template = self._compile(self.options.template, self.data);
+            self.element.html($template);
+            self._bindAll();
+            self._trigger('repainted');
+        },
+
+        refresh: function () {
+            var self = this;
+            self._trigger('refresh');
+            self.element.html('');
+            self._spin();
+            self._fetchEventData(function (data) {
+                self._spin(false);
+                self.data = $.extend({options: self.options}, data);
+                self.repaint();
+                self._trigger('refreshed');
+            });
         },
 
         _create: function () {
@@ -227,91 +472,47 @@ templates['github.events'] = template({"1":function(depth0,helpers,partials,data
             };
 
             this.$widget = null;
-            if (this.options.useSpinner === true) {
-                this.element.spin();
-            }
 
             // Create a seperate copy of all event triggers and merge the defaults
             self.__events = {};
             $.each(this.options.output.events, function (type, event) {
                 if (type === 'default') return;
-                self.__events[type] = _.merge(_.cloneDeep(self.options.output.events.default), event);
+                self.__events[type] = $.extend(R.cloneDeep(self.options.output.events.default), event);
             });
 
-            self._fetchEventData(function (data) {
-                if (self.options.useSpinner === true) {
-                    self.element.spin(false);
-                }
-
-                var templateHTML = $(self.options.selectors.template).html();
-                var template = jQuery.template(templateHTML);
-                $.extend(data, self.options.output.template);
-                var $widget = template(data);
-                self.element.append($widget);
-                self._bindAll();
-            });
+            this.refresh();
         },
 
         _bindAll: function () {
             var self = this;
             var sel = this.options.selectors;
 
-            this.element.find('*[data-github-user]').popover({
-                html: true,
-                trigger: 'manual',
-                container: 'body',
-                placement: 'left',
-                content: function () {
-                    return self._popoverUser($(this).data('github-user'));
-                }
-            }).hover(function (e) {
-                e.preventDefault();
-                $(this).popover('toggle');
-            });
-
-            this.element.find('*[data-github-commits]').each(function () {
-                var c = $(this).data('github-commits');
-                $(this).popover({
-                    html: true,
-                    trigger: 'manual',
-                    container: 'body',
-                    placement: 'right',
-                    content: function () {
-
-                        return self._getTemplate('github-events-commits', {event: self.__cache.events[c]['raw']});
-                    }
-                }).hover(function (e) {
-                    e.preventDefault();
-                    $(this).popover('toggle');
-                });
-            });
-            this.element.find('*[data-github-issue]').tooltip({container: 'body'});
         },
 
         _fetchEventData: function (callback) {
             var self = this;
-            radic.github.users.events(this.options.username, 0, this.options.max, function (events) {
+            R.github.users.events(this.options.username, 0, this.options.max, function (events) {
+
                 var eventData = [];
                 for (var i = 0; i < events.length; i++) {
                     var event = self._getProcessedEvent(events[i]);
                     eventData.push(event);
-                    self.__cache.events[events[i].id] = event;
                 }
-                callback({
-                    events: eventData
-                });
+
+                callback({ events: eventData });
             });
         },
 
         _getProcessedEvent: function (eventData) {
             var self = this;
-            var event = _.cloneDeep(self.__events[eventData.type]);
-            if (_.isFunction(event.text)) {
-                event.text = event.text.apply(this, [eventData]);
+            var event = R.cloneDeep(self.__events[eventData.type]);
+            if (R.isFunction(event.text)) {
+                event.text = event.text.apply(event, [eventData]);
             }
             event.id = eventData.id;
             event.raw = eventData;
-            event.timeAgo = moment(eventData.created_at).fromNow(true);
+            event.timeAgo = R.time.ago(eventData.created_at);
+            event.time = eventData.created_at;
             return event;
         },
 
@@ -322,24 +523,6 @@ templates['github.events'] = template({"1":function(depth0,helpers,partials,data
             }
             var user = self.__cache.users[username];
             return self._getTemplate('github-events-user-popover', {user: user});
-        },
-
-        _getTemplate: function (templateId, data) {
-            var templateHTML = $('script[data-template-id="' + templateId + '"]').html();
-            var template = jQuery.template(templateHTML);
-
-            var defaults = {
-                isset: function (val) {
-                    if (_.isUndefined(val)) {
-                        return false;
-                    }
-                    if (_.isString(val)) {
-                        return val.length > 0
-                    }
-                    return true;
-                }
-            };
-            return template($.extend(defaults, data));
         },
 
 

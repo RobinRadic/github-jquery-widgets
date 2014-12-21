@@ -1,38 +1,45 @@
-.github-events-widget li .col1 .cont .cont-col1 .label {
-  padding: 6px 4px 6px 5px;
+/**
+ * Retrieves a color value from the $material-colors Sass map
+ * Inspired by https://github.com/nilskaspersson/Google-Material-UI-Color-Palette/
+ *
+ * @function
+ * @param {string} color-name             - quoted, lower-case, dasherized color
+ *                                          name (e.g. 'pink', 'amber')
+ * @param {string} [color-variant='500']  - quoted, lowercase color variant (e.g.
+ *                                          '200', 'a100')
+ */
+.gh-events-widget {
+  border: 1px solid #d4d4d4;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  color: #666;
+  padding: 10px;
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
-.github-events-widget li .col1 .cont .cont-col1 i.fa {
-  font-size: 16px;
+.gh-events-widget table {
+  width: 100%;
 }
-.github-events-widget li .col1 .cont .cont-col2 .desc {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+.gh-events-widget .gh-event {
+  border-bottom: 5px solid transparent;
 }
-.github-events-widget li .col1 .cont .cont-col2 .desc .label {
-  padding: 6px !important;
+.gh-events-widget .gh-events-icon {
+  width: 30px;
 }
-.github-events-widget li .col1 .cont .cont-col2 .desc img {
-  height: 20px;
-  width: 20px;
-  margin-right: 10px;
-  margin-left: 10px;
+.gh-events-widget .gh-events-icon .label {
+  display: block;
+  height: 30px;
 }
-.github-events-widget li .col1 .cont .cont-col2 .desc .btn-xs {
-  padding: 4px 5px;
-  padding-right: 8px;
+.gh-events-widget .gh-events-icon .fa {
+  font-size: 18px;
+  padding: 4px;
 }
-.github-events-widget li .col1 .cont .cont-col2 .desc .branch, .github-events-widget li .col1 .cont .cont-col2 .desc .tagged, .github-events-widget li .col1 .cont .cont-col2 .desc .commits {
-  width: 100px;
-  display: inline-block;
+.gh-events-widget .gh-events-text {
+  padding-left: 10px;
 }
-.github-events-widget li .col2 {
-  width: 110px;
-  margin-left: -110px;
-}
-
-.popover-content > .github-events-commits .in .message {
-  margin-left: 10px;
-}
-.popover-content > .github-events-commits .out .message {
-  margin-right: 10px;
+.gh-events-widget .gh-events-time {
+  color: #999;
+  font-size: 80%;
+  text-align: right;
+  padding-right: 10px;
 }
