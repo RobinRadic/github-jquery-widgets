@@ -11,12 +11,12 @@
         return event.payload.size > 1 ? 's' : ''
     });
 
-    R.template.registerHelper('pushName', function (event) {
-        return event.payload.size > 1 ? 's' : ''
+    R.template.registerHelper('repoName', function (repo) {
+        return repoName.replace(/(\w*)\/(\w*)/, '$2');
     });
 
-    R.template.registerHelper('repoName', function (repoName) {
-        return repoName.replace(/RobinRadic\/(\w*)/, '$1');
+    R.template.registerHelper('repoOwner', function (repo) {
+        return repoName.replace(/(\w*)\/(\w*)/, '$1');
     });
 
 

@@ -97,6 +97,9 @@
             self.element.html('');
             var $template = self._compile(self.options.template, $.extend({ options: self.options }, self.data));
             self.element.html($template);
+            $template.find('.repo-link').on('click', function(e){
+                self._trigger('onRepositoryClick', null, $(this).data('repository'));
+            });
             self._trigger('repainted');
         },
 

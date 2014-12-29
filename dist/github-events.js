@@ -33,13 +33,34 @@ templates['github.events.commits'] = template({"compiler":[6,">= 2.0.0-beta.1"],
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.id : stack1), depth0))
     + "\" target=\""
     + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
-    + "\" class=\"btn "
-    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs yellow commits", {"name":"default","hash":{},"data":data})))
+    + "\" class=\"commits btn "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs yellow", {"name":"default","hash":{},"data":data})))
     + "\">\n        "
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.size : stack1), depth0))
     + " commit"
     + escapeExpression(((helpers.pushName || (depth0 && depth0.pushName) || helperMissing).call(depth0, (depth0 != null ? depth0.event : depth0), {"name":"pushName","hash":{},"data":data})))
     + "\n    </a>\n</script>\n\n";
+},"useData":true});
+templates['github.events.commits.popover'] = template({"1":function(depth0,helpers,partials,data) {
+  var stack1, helper, lambda=this.lambda, escapeExpression=this.escapeExpression, functionType="function", helperMissing=helpers.helperMissing;
+  return "            <li >\n                <div class=\"message\">\n                    <span class=\"arrow\"></span>\n                    <a href=\"#\" class=\"name\">"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.author : depth0)) != null ? stack1.name : stack1), depth0))
+    + "</a>\n                    <span class=\"body\">"
+    + escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"message","hash":{},"data":data}) : helper)))
+    + "</span>\n                </div>\n            </li>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, buffer = "<script type=\"text/x-handlebars-template\">\n    <div class=\"github-events-commits-popover\">\n        <div>\n            <h4 class=\"profile-desc-title\">"
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.actor : stack1)) != null ? stack1.login : stack1), depth0))
+    + "</h4>\n            <span class=\"profile-desc-text\"> Pushed "
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.size : stack1), depth0))
+    + " commits. </span>\n            <div class=\"margin-top-10 profile-desc-link\">\n                <i class=\"fa fa-github\"></i>\n                "
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.repo : stack1)) != null ? stack1.name : stack1), depth0))
+    + "\n            </div>\n            <div class=\"margin-top-10 profile-desc-link\">\n                <i class=\"fa fa-code-fork\"></i>\n                "
+    + escapeExpression(((helpers.pushName || (depth0 && depth0.pushName) || helperMissing).call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.ref : stack1), {"name":"pushName","hash":{},"data":data})))
+    + "\n            </div>\n        </div>\n\n        <ul class=\"chats margin-top-20\">\n";
+  stack1 = helpers.each.call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.commits : stack1), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "        </ul>\n    </div>\n</script>\n";
 },"useData":true});
 templates['github.events'] = template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda, buffer = "                <tr data-event-id=\""
@@ -86,9 +107,19 @@ templates['github.events.issue'] = template({"1":function(depth0,helpers,partial
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\n</script>\n";
 },"useData":true});
-templates['github.events.repo'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<script type=\"text/x-handlebars-template\">\n    <a href=\""
+templates['github.events.repo'] = template({"1":function(depth0,helpers,partials,data) {
+  var stack1, helper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function";
+  return "        <a href=\"https://github.com/"
+    + escapeExpression(((helpers.repoOwner || (depth0 && depth0.repoOwner) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.repo : depth0)) != null ? stack1.name : stack1), {"name":"repoOwner","hash":{},"data":data})))
+    + "\" target=\""
+    + escapeExpression(((helper = (helper = helpers.target || (depth0 != null ? depth0.target : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"target","hash":{},"data":data}) : helper)))
+    + "\" class=\"repo "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.ownerClass : depth0), "label label-xs label-deep-orange", {"name":"default","hash":{},"data":data})))
+    + "\"><i class=\"fa fa-github-alt\"></i> "
+    + escapeExpression(((helpers.repoOwner || (depth0 && depth0.repoOwner) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.repo : depth0)) != null ? stack1.name : stack1), {"name":"repoOwner","hash":{},"data":data})))
+    + "</a>\n";
+},"3":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <a href=\""
     + escapeExpression(((helper = (helper = helpers.href || (depth0 != null ? depth0.href : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"href","hash":{},"data":data}) : helper)))
     + "\" target=\""
     + escapeExpression(((helper = (helper = helpers.target || (depth0 != null ? depth0.target : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"target","hash":{},"data":data}) : helper)))
@@ -96,9 +127,21 @@ templates['github.events.repo'] = template({"compiler":[6,">= 2.0.0-beta.1"],"ma
     + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "label label-xs label-orange", {"name":"default","hash":{},"data":data})))
     + "\" title=\""
     + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
-    + "\"><i class=\"fa fa-github-alt\"></i> "
+    + "\">\n        ";
+  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.owner : depth0), {"name":"unless","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + " "
     + escapeExpression(((helpers.repoName || (depth0 && depth0.repoName) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.repo : depth0)) != null ? stack1.name : stack1), {"name":"repoName","hash":{},"data":data})))
-    + "</a>\n</script>\n\n";
+    + "\n    </a>\n";
+},"4":function(depth0,helpers,partials,data) {
+  return "<i class=\"fa fa-github-alt\"></i>";
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "<script type=\"text/x-handlebars-template\">\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.owner : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.repo : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</script>\n\n";
 },"useData":true});
 templates['github.events.tag'] = template({"1":function(depth0,helpers,partials,data) {
   return "<i class=\"fa fa-tag\"></i>";
@@ -259,20 +302,11 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
         version: '0.0.1',
         options: {
             username: '',
-
             template: 'github.events',
             className: 'gh-events-widget',
-
-
-            useSpinner: true,
             max: 60,
             height: 300,
-
             output: {
-                template: {
-                    title: 'Recent events'
-
-                },
                 events: {
                     default: {
                         icon: 'fa fa-info',
@@ -400,7 +434,7 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
                         text: function (event) {
 
                              return $(document.createElement('span'))
-                             .append(texts.user(event.actor))
+                             .append(texts.user(event.actor, { icon: true }))
                              .append(texts.branch(event))
                              .append(texts.commits(event))
                              .append(' to ')
@@ -441,12 +475,15 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
             }
         },
 
+        _data: {
+            events: {}
+        },
+
         repaint: function () {
             var self = this;
             self._trigger('repaint');
             var $template = self._compile(self.options.template, self.data);
             self.element.html($template);
-            self._bindAll();
             self._trigger('repainted');
         },
 
@@ -470,6 +507,9 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
                 repos: {},
                 events: {}
             };
+            self._data = {
+                events: {}
+            };
 
             this.$widget = null;
 
@@ -483,10 +523,9 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
             this.refresh();
         },
 
-        _bindAll: function () {
-            var self = this;
-            var sel = this.options.selectors;
 
+        getEvent: function(eventID){
+            return this._data.events[eventID];
         },
 
         _fetchEventData: function (callback) {
@@ -497,6 +536,7 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
                 for (var i = 0; i < events.length; i++) {
                     var event = self._getProcessedEvent(events[i]);
                     eventData.push(event);
+                    self._data.events[event.id] = event;
                 }
 
                 callback({ events: eventData });
@@ -516,81 +556,11 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
             return event;
         },
 
-        _popoverUser: function (username) {
-            var self = this;
-            if (_.isUndefined(self.__cache.users[username])) {
-                self.__cache.users[username] = JSON.parse(radic.github.syncRequest('/users/' + username));
-            }
-            var user = self.__cache.users[username];
-            return self._getTemplate('github-events-user-popover', {user: user});
-        },
 
-
-        _createModal: function () {
-
-        },
-
-        _showModal: function (modalType, event) {
-            switch (modalType) {
-                case "user":
-
-                    break;
-
-                case "repository":
-
-                    break;
-
-                case "push":
-                    radic.github.repos.commitsSha('RobinRadic', 'swiftapi', '4853e862828bc697e2db839d7ad91fafb0844c1c', function (result) {
-
-                    });
-                    break;
-            }
-        },
-
-
-        /* The _init method is called after _create when the widget is first applied to its elements.
-         The _init method is also called every time thereafter when the widget is invoked with no arguments or with options.
-         This method is the recommended place for setting up more complex initialization and is a good way to support reset functionality for the widget if this is required.
-         It's common for widgets to not implement an _init method. */
-        _init: function (callback) {
-
-
-        },
-
-
-        _getCreateEventData: function () {
-
-        },
 
         _destroy: function () {
             this.element.html('');
-        },
-
-
-        _setOptions: function (options) {
-            // Ensure "value" option is set after other values (like max)
-            var value = options.value;
-            delete options.value;
-
-            this._super(options);
-
-            this.options.value = this._constrainedValue(value);
-            this._refreshValue();
-        },
-
-        _setOption: function (key, value) {
-            if (key === "max") {
-                // Don't allow a max less than min
-                value = Math.max(this.min, value);
-            }
-            if (key === "disabled") {
-                this.element
-                    .toggleClass("ui-state-disabled", !!value)
-                    .attr("aria-disabled", value);
-            }
-            this._super(key, value);
-        },
+        }
 
 
     });

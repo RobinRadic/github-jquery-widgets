@@ -64,7 +64,10 @@
                     },
                     refreshed: widgets.profile.onEvent,
                     repaint: widgets.profile.onEvent,
-                    repainted: widgets.profile.onEvent,
+                    repainted: function (e, opts, data) {
+                        $(e.target).find('.repo-link').tooltip();
+                        widgets.profile.onEvent.apply(widgets.profile, R.toArray(arguments));
+                    },
                     destroyed: widgets.profile.onEvent
                 });
             }

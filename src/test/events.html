@@ -28,6 +28,7 @@
 
                     // Add jQuery slimscroll, cause it looks neat
                     repainted: function (e, options) {
+                        var self = this;
                         console.log('repainted', this, e, options);
                         var $wrapper = $(document.createElement('div'));
                         var $container = $(e.target.firstElementChild).wrapInner($wrapper);
@@ -36,6 +37,23 @@
                         $($container[0].firstElementChild).slimScroll({
                             height: options.height - (parseInt($container.css('padding').replace('px')) * 2),
                             alwaysVisible: true
+                        });
+
+
+                        $(e.target).find('.commits').popover({
+                            html: true,
+                            trigger: 'manual',
+                            container: 'body',
+                            placement: 'right',
+                            content: function () {
+                                var c = $(this).data('github-event');
+                                console.log('commits popover', c, self);
+                                console.log('commits popover', this._data.events[c]);
+                                return this._compile('commits.popover', {event: this.__cache.events[c]['raw']});
+                            }
+                        }).hover(function (e) {
+                            e.preventDefault();
+                            $(this).popover('toggle');
                         });
                     }
                 });
@@ -65,15 +83,90 @@
                 <h2>Github Events Widget</h2>
 
                 <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group btn-group-xs" role="group">
-                    <a href="#" class="btn btn-primary js events-refresh">Refresh</a>
-                    <a href="#" class="btn btn-primary js events-repaint">Repaint</a>
-                </div>
+                    <div class="btn-group btn-group-xs" role="group">
+                        <a href="#" class="btn btn-primary js events-refresh">Refresh</a>
+                        <a href="#" class="btn btn-primary js events-repaint">Repaint</a>
                     </div>
+                </div>
                 <div id="demo-events"></div>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <h4>General options and initialisation</h4>
+                <pre><code class="language-javascript">$('#selector').githubEvents({
+    username: 'RobinRadic',
+    height: 300,
+    template: 'github.events',
+    className: 'gh-events-widget',
+    max: 60,
+    output: {
+        events: {
+            default: { // All output events have these default base values
+                icon: 'fa fa-info',
+                text: 'A github event has been triggered',
+                iconColor: 'default',
+                link: false
+            },
+            CommitCommentEvent: {
+                icon: 'fa fa-edit',
+                text: 'New comment on a commit' // Static text
+            },
+            CreateEvent: {
+                // Function as text value is also allowed. Has 'event' as parameter with event details.
+                text: function(event){
+                    console.log('createEvent', event);
+                    // event.actor, event.repo, etc... Each event has different properties
+
+                    // You can use 'this' to change the output properties
+                    this.icon = 'fa fa-plus';
+
+                    // Return the text you want to show
+                    return '&ltspan>' + event.repo.name + '&lt/span>';
+                }
+            },
+            PushEvent: {
+                text: function(event){
+                    // You can use templates too
+                    var tpl = R.templates.get('github.events.user');
+                    return 'User: ' + $(tpl(event.actor)).html() + ' pushed to ' + event.repo.name;
+                }
+            }
+            // Check the source file in dist/github-events.js for more examples and all event names...
+        }
+    }
+});</code></pre>
+                <h4>Adding in slimScroll, popover and other stuff</h4>
+                <pre><code class="language-javascript">$('#selector').githubEvents({
+// Use the event 'repainted' to add extra stuff
+repainted: function (e, options) {
+    var self = this;
+
+    // Add slimScroll
+    var $wrapper = $(document.createElement('div'));
+    var $container = $(e.target.firstElementChild).wrapInner($wrapper);
+    $($container[0].firstElementChild).slimScroll({
+        height: options.height - (parseInt($container.css('padding').replace('px')) * 2),
+        alwaysVisible: true
+    });
+
+    // Add popover
+    $(e.target).find('.commits').popover({
+        html: true,
+        trigger: 'manual',
+        container: 'body',
+        placement: 'right',
+        content: function () {
+            return 'popovercontent'
+        }
+    }).hover(function (e) {
+        e.preventDefault();
+        $(this).popover('toggle');
+    });
+}</code></pre>
+            </div>
+        </div>
     </div>
 </div>
 

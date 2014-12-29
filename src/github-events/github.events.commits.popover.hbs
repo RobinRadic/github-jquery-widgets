@@ -1,0 +1,28 @@
+<script type="text/x-handlebars-template">
+    <div class="github-events-commits-popover">
+        <div>
+            <h4 class="profile-desc-title">{{event.actor.login}}</h4>
+            <span class="profile-desc-text"> Pushed {{event.payload.size}} commits. </span>
+            <div class="margin-top-10 profile-desc-link">
+                <i class="fa fa-github"></i>
+                {{event.repo.name}}
+            </div>
+            <div class="margin-top-10 profile-desc-link">
+                <i class="fa fa-code-fork"></i>
+                {{pushName event.payload.ref}}
+            </div>
+        </div>
+
+        <ul class="chats margin-top-20">
+            {{#each event.payload.commits}}
+            <li >
+                <div class="message">
+                    <span class="arrow"></span>
+                    <a href="#" class="name">{{author.name}}</a>
+                    <span class="body">{{message}}</span>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</script>

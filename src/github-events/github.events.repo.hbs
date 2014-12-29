@@ -1,4 +1,11 @@
 <script type="text/x-handlebars-template">
-    <a href="{{href}}" target="{{target}}" class="repo {{default class "label label-xs label-orange"}}" title="{{description}}"><i class="fa fa-github-alt"></i> {{repoName repo.name}}</a>
+    {{#if owner}}
+        <a href="https://github.com/{{repoOwner repo.name}}" target="{{target}}" class="repo {{default ownerClass "label label-xs label-deep-orange"}}"><i class="fa fa-github-alt"></i> {{repoOwner repo.name}}</a>
+    {{/if}}
+    {{#if repo}}
+    <a href="{{href}}" target="{{target}}" class="repo {{default class "label label-xs label-orange"}}" title="{{description}}">
+        {{#unless owner}}<i class="fa fa-github-alt"></i>{{/unless}} {{repoName repo.name}}
+    </a>
+    {{/if}}
 </script>
 

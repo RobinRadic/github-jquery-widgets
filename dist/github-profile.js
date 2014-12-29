@@ -63,6 +63,8 @@ templates['github.profile'] = template({"1":function(depth0,helpers,partials,dat
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                    <a href=\""
     + escapeExpression(((helper = (helper = helpers.html_url || (depth0 != null ? depth0.html_url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"html_url","hash":{},"data":data}) : helper)))
+    + "\" class=\"repo-link\" data-repository=\""
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "\" title=\""
     + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
     + "\">\n                        <span class=\"repo-name\">"
@@ -188,6 +190,9 @@ templates['github.profile'] = template({"1":function(depth0,helpers,partials,dat
             self.element.html('');
             var $template = self._compile(self.options.template, $.extend({ options: self.options }, self.data));
             self.element.html($template);
+            $template.find('.repo-link').on('click', function(e){
+                self._trigger('onRepositoryClick', null, $(this).data('repository'));
+            });
             self._trigger('repainted');
         },
 

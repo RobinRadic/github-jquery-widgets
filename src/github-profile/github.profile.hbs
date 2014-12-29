@@ -39,7 +39,7 @@
             <div class="repos">
                 {{#if options.repositoriesHeaderText}}<span class="header">{{options.repositoriesHeaderText}}</span>{{/if}}
                 {{#each repositories}}
-                    <a href="{{html_url}}" title="{{description}}">
+                    <a href="{{html_url}}" class="repo-link" data-repository="{{name}}" title="{{description}}">
                         <span class="repo-name">{{name}}</span><span class="updated">Updated: {{updated_at_formatted}}</span><span class="star">{{stargazers_count}}</span>
                     </a>
                 {{/each}}

@@ -40,20 +40,11 @@
         version: '0.0.1',
         options: {
             username: '',
-
             template: 'github.events',
             className: 'gh-events-widget',
-
-
-            useSpinner: true,
             max: 60,
             height: 300,
-
             output: {
-                template: {
-                    title: 'Recent events'
-
-                },
                 events: {
                     default: {
                         icon: 'fa fa-info',
@@ -181,7 +172,7 @@
                         text: function (event) {
 
                              return $(document.createElement('span'))
-                             .append(texts.user(event.actor))
+                             .append(texts.user(event.actor, { icon: true }))
                              .append(texts.branch(event))
                              .append(texts.commits(event))
                              .append(' to ')
@@ -222,12 +213,15 @@
             }
         },
 
+        _data: {
+            events: {}
+        },
+
         repaint: function () {
             var self = this;
             self._trigger('repaint');
             var $template = self._compile(self.options.template, self.data);
             self.element.html($template);
-            self._bindAll();
             self._trigger('repainted');
         },
 
@@ -251,6 +245,9 @@
                 repos: {},
                 events: {}
             };
+            self._data = {
+                events: {}
+            };
 
             this.$widget = null;
 
@@ -264,10 +261,9 @@
             this.refresh();
         },
 
-        _bindAll: function () {
-            var self = this;
-            var sel = this.options.selectors;
 
+        getEvent: function(eventID){
+            return this._data.events[eventID];
         },
 
         _fetchEventData: function (callback) {
@@ -278,6 +274,7 @@
                 for (var i = 0; i < events.length; i++) {
                     var event = self._getProcessedEvent(events[i]);
                     eventData.push(event);
+                    self._data.events[event.id] = event;
                 }
 
                 callback({ events: eventData });
@@ -297,81 +294,11 @@
             return event;
         },
 
-        _popoverUser: function (username) {
-            var self = this;
-            if (_.isUndefined(self.__cache.users[username])) {
-                self.__cache.users[username] = JSON.parse(radic.github.syncRequest('/users/' + username));
-            }
-            var user = self.__cache.users[username];
-            return self._getTemplate('github-events-user-popover', {user: user});
-        },
 
-
-        _createModal: function () {
-
-        },
-
-        _showModal: function (modalType, event) {
-            switch (modalType) {
-                case "user":
-
-                    break;
-
-                case "repository":
-
-                    break;
-
-                case "push":
-                    radic.github.repos.commitsSha('RobinRadic', 'swiftapi', '4853e862828bc697e2db839d7ad91fafb0844c1c', function (result) {
-
-                    });
-                    break;
-            }
-        },
-
-
-        /* The _init method is called after _create when the widget is first applied to its elements.
-         The _init method is also called every time thereafter when the widget is invoked with no arguments or with options.
-         This method is the recommended place for setting up more complex initialization and is a good way to support reset functionality for the widget if this is required.
-         It's common for widgets to not implement an _init method. */
-        _init: function (callback) {
-
-
-        },
-
-
-        _getCreateEventData: function () {
-
-        },
 
         _destroy: function () {
             this.element.html('');
-        },
-
-
-        _setOptions: function (options) {
-            // Ensure "value" option is set after other values (like max)
-            var value = options.value;
-            delete options.value;
-
-            this._super(options);
-
-            this.options.value = this._constrainedValue(value);
-            this._refreshValue();
-        },
-
-        _setOption: function (key, value) {
-            if (key === "max") {
-                // Don't allow a max less than min
-                value = Math.max(this.min, value);
-            }
-            if (key === "disabled") {
-                this.element
-                    .toggleClass("ui-state-disabled", !!value)
-                    .attr("aria-disabled", value);
-            }
-            this._super(key, value);
-        },
+        }
 
 
     });
