@@ -1,16 +1,19 @@
 ---
 layout: page
-title: Node Radic
+title: Github JS Widgets
 minify_content: false
 navigation:
   - name: Home
     link: /
     icon: fa fa-home
   - name: Overview
-    link: /node-radic
+    link: /github-jquery-widgets
     icon: fa fa-dashboard
+  - name: Demonstration
+    link: /github-jquery-widgets/demo
+    icon: fa fa-record
   - name: Coverage
-    link: /node-radic/coverage
+    link: /github-jquery-widgets/coverage
     icon: fa fa-code
   - name: Namespaces
     link: "#"

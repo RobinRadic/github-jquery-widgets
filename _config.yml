@@ -1,8 +1,8 @@
-title:            Jquery Github Widgets
+title:            Github JS Widgets
 description:      Github widgets
 # Your site's domain goes here (eg: //mmistakes.github.io, http://mademistakes.com, etc)
 # When testing locally leave blank or use http://localhost:4000
-url: http://robinradic.github.io
+url: http://robin.radic.nl
 
 
 layouts:     ./_includes/_layouts
