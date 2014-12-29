@@ -11,7 +11,7 @@ navigation:
     icon: fa fa-dashboard
   - name: Demonstration
     link: /github-jquery-widgets/demo
-    icon: fa fa-record
+    icon: fa fa-forward
   - name: Coverage
     link: /github-jquery-widgets/coverage
     icon: fa fa-code
