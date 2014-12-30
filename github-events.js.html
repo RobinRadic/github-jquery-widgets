@@ -99,9 +99,9 @@ navigation:
 
         /**
          * Default options
-         * @property {Object}  options - the default options
-         * @property {String}  options.username - the user login name or id
-         * @property {String}  [options.template=github.events] - The template (file) name
+         * @property {Object} options - the default options
+         * @property {String} options.username - the user login name or id
+         * @property {String} [options.template=github.events] - The template (file) name
          * @property {string} [options.className=gh-events-widget] - The class name that will be applied to the highest html node of the template
          * @property {number} [options.max=60] - The maximum number of events shown
          * @property {number} [options.height=300] - The height you want the widget to be
@@ -118,6 +118,18 @@ navigation:
          * @property {object} [options.output.events.ForkApplyEvent]
          * @property {object} [options.output.events.GistEvent]
          * @property {object} [options.output.events.GollumEvent]
+         * @property {object} [options.output.events.IssueCommentEvent]
+         * @property {object} [options.output.events.IssuesEvent]
+         * @property {object} [options.output.events.MemberEvent]
+         * @property {object} [options.output.events.PageBuildEvent]
+         * @property {object} [options.output.events.PublicEvent]
+         * @property {object} [options.output.events.PullRequestEvent]
+         * @property {object} [options.output.events.PullRequestReviewCommentEvent]
+         * @property {object} [options.output.events.PushEvent]
+         * @property {object} [options.output.events.ReleaseEvent]
+         * @property {object} [options.output.events.StatusEvent]
+         * @property {object} [options.output.events.TeamAddEvent]
+         * @property {object} [options.output.events.WatchEvent]
          * @example
          *  $('#thewidget').githubEvents({
          *      username: 'usah',
