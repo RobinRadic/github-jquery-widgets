@@ -5,6 +5,7 @@
 [![Goto repository](http://img.shields.io/badge/goto-repository-orange.svg)](https://github.com/robinradic/github-jquery-widgets)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](http://radic.mit-license.org)
 
+[![Example](http://robin.radic.nl/github-jquery-widgets/images/events.jpeg)](http://robin.radic.nl/github-jquery-widgets)
 
 ## Getting Started
   
