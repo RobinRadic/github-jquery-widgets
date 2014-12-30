@@ -340,7 +340,8 @@ navigation:
         },
 
         /**
-         * Refreshes the data and repaints the widget. Usefull in case of option changes
+         * Get a specific event. Every event row has a data attribute (data-github-event) containing the relative event id.
+         * You can use this to fetch the event information
          * @param {number} eventID - The id of the event you want to get
          * @returns {object} event - The event JSON data.
          * @example
@@ -352,7 +353,7 @@ navigation:
          *      id: "2487066506",
          *      link: false,
          *      raw: "RAW EVENT JSON DATA",
-         *      "time: "2014-12-30T07:51:34Z",
+         *      time: "2014-12-30T07:51:34Z",
          *      timeAgo: "8 hours ago",
          * }
          */
