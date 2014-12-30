@@ -13,6 +13,29 @@ module.exports = function (grunt) {
     };
     var gc = {
         config: config,
+        radic_jsdoc: {
+            docs: {
+
+            }
+        },
+        radic_coverage: {
+            docs: {
+                options: {
+                    frontMatterPath: 'docs/processed-front-matter.yml'
+                }
+            }
+        },
+        radic_ghpages_publish: {
+            docs: {
+                options: {
+                    dir: 'docs',
+                    indexName: 'index.md',
+                    frontMatterPath: 'docs/processed-front-matter.yml',
+                    readmePath: 'README.md',
+                    replacer: '# github-widgets'
+                }
+            }
+        },
         build_widget: {
             options: {
                 rootDir: 'src',
@@ -43,28 +66,61 @@ module.exports = function (grunt) {
                 dest: 'dist/github-widgets.css'
             }
         },
+        'string-replace': {
+            demo: {
+                files: {
+                    'docs/demo/': ['docs/demo/*.html']
+                },
+                options: {
+                    replacements: [{
+                        pattern: /<!DOCTYPE html>/,
+                        replacement: "---\n---\n<!DOCTYPE html>"
+                    }]
+                }
+            }
+        },
         preprocess: {
             options: {
                 context: {
                     DEBUG: true
                 }
             },
-            testhtml: {
+            previewhtml: {
                 options: {
                     inline: true
                 },
 
-                src: ['test/*.html']
+                src: ['preview/*.html']
             }
         },
         copy: {
-
+            demo: {
+                files: [{
+                    expand: true,
+                    cwd: 'preview',
+                    src: '**',
+                    dest: 'docs/demo/'
+                },{
+                    expand: true,
+                    cwd: 'dist',
+                    src: '**',
+                    dest: 'docs/dist/'
+                }]
+            },
+            basewidget2dist: {
+                files: [{
+                    expand: true,
+                    cwd: 'src',
+                    src: 'github-widget.js',
+                    dest: 'dist/'
+                }]
+            },
             srctest2test: {
                 files: [{
                     expand: true,
-                    cwd: 'src/test',
+                    cwd: 'src/preview',
                     src: '**',
-                    dest: 'test/'
+                    dest: 'preview/'
                 }]
             },
             radicjs2dist: {
@@ -86,16 +142,17 @@ module.exports = function (grunt) {
         },
         clean: {
             radicjsdist: ['lib/radicjs/<%= config.radicjs.dest %>'],
-            radicjsyaml: ['radicjs.yml']
+            radicjsyaml: ['radicjs.yml'],
+            demo: ['docs/demo/**']
         },
         watch: {
             widgets: {
                 files: ['src/**/*', '!src/**/*.tpls.js'],
-                tasks: ['header', 'build:widgets']
+                tasks: ['header', 'copy:basewidget2dist', 'build:widgets']
             },
-            testhtml: {
-                files: ['src/test/**'],
-                tasks: ['header', 'copy:srctest2test', 'preprocess:testhtml']
+            previewhtml: {
+                files: ['src/preview/**'],
+                tasks: ['header', 'copy:srctest2test', 'preprocess:previewhtml']
             },
             bootstrapsass: {
                 files: ['src/bootstrap.scss', 'src/_base.scss'],
@@ -135,8 +192,10 @@ module.exports = function (grunt) {
         'build:dep'
     ]);
 
-    grunt.registerTask('demo:build', 'Create demonstration github pages from current dist', ['copy:dist2demo']);
-    grunt.registerTask('demo:publish', 'Publish demonstration to github pages', ['copy:dist2demo']);
+    grunt.registerTask('demo:build', 'Create demonstration github pages from current dist', ['clean:demo', 'copy:demo', 'string-replace:demo']);
+    grunt.registerTask('docs:publish', 'Publish demonstration to github pages', ['radic_jsdoc:docs', 'radic_coverage:docs', 'radic_ghpages_publish:docs']);
+
+
     grunt.registerTask('publish', 'Builds dependencies, widgets, demo. Increases version number, creates a git tag and pushes it to remote', ['copy:dist2demo']);
 
 

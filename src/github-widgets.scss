@@ -4,11 +4,15 @@
 
 @mixin gh-color-variant($name){
     .btn-#{$name} {
-        @include button-variant(#fff, material-color($name, '500'), material-color($name, '700'));
+        @include button-variant(#fff, material-color($name, '500'), material-color($name, '500'));
     }
 
     .label-#{$name} {
         @include label-variant(material-color($name, '500'))
+    }
+
+    .font-#{$name} {
+        color: material-color($name, '500');
     }
 }
 

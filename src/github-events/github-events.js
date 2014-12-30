@@ -62,21 +62,21 @@
                         text: function (event) {
                             var str = '';
 
-                             if (event.payload.ref_type === 'tag') {
-                                 this.icon = 'fa fa-tag';
-                                 this.iconColor = 'green';
-                                 str += texts.tag(event.payload);
-                                 str += " tagged by ";
-                             }
+                            if (event.payload.ref_type === 'tag') {
+                                this.icon = 'fa fa-tag';
+                                this.iconColor = 'green';
+                                str += texts.tag(event.payload);
+                                str += " tagged by ";
+                            }
 
                             str += '<div class="btn-group">';
-                            str += texts.user(event.actor, { icon: true, class: 'btn btn-xs btn-orange' });
-                            str += texts.repo(event.repo, { class: 'btn btn-xs btn-primary' });
+                            str += texts.user(event.actor, {icon: true, class: 'btn btn-xs btn-orange'});
+                            str += texts.repo(event.repo, {class: 'btn btn-xs btn-primary'});
                             str += '</div>';
                             //console.log('create event text', str);
                             // str += event.repo.;
                             //console.warn(this);
-                             return str.replace("\n", "");
+                            return str.replace("\n", "");
 
                         }
                     },
@@ -171,14 +171,19 @@
                         icon: 'fa fa-save',
                         text: function (event) {
 
-                             return $(document.createElement('span'))
-                             .append(texts.user(event.actor, { icon: true }))
-                             .append(texts.branch(event))
-                             .append(texts.commits(event))
-                             .append(' to ')
-                             .append(texts.repo(event.repo)).html();
+                            return $(document.createElement('span'))
+                                .append(texts.user(event.actor, {icon: true}))
+                                .append(
+                                $(document.createElement('div')).addClass('btn-group')
 
-                           // return 'PushEvent has occured';
+                                    .append(texts.branch(event))
+                                    .append(texts.commits(event))
+                            )
+                                .append(' to ')
+                                .append(texts.repo(event.repo))
+                                .html();
+
+                            // return 'PushEvent has occured';
                         },
                         iconColor: 'success'
                     },
@@ -214,7 +219,8 @@
         },
 
         _data: {
-            events: {}
+            eventData: {},
+            eventTypes: {}
         },
 
         repaint: function () {
@@ -240,30 +246,26 @@
 
         _create: function () {
             var self = this;
-            self.__cache = {
-                users: {},
-                repos: {},
-                events: {}
-            };
+
             self._data = {
-                events: {}
+                eventData: {},
+                eventTypes: {}
             };
 
             this.$widget = null;
 
             // Create a seperate copy of all event triggers and merge the defaults
-            self.__events = {};
             $.each(this.options.output.events, function (type, event) {
                 if (type === 'default') return;
-                self.__events[type] = $.extend(R.cloneDeep(self.options.output.events.default), event);
+                self._data.eventTypes[type] = $.extend(R.cloneDeep(self.options.output.events.default), event);
             });
 
             this.refresh();
         },
 
 
-        getEvent: function(eventID){
-            return this._data.events[eventID];
+        getEvent: function (eventID) {
+            return this._data.eventData[eventID];
         },
 
         _fetchEventData: function (callback) {
@@ -274,16 +276,16 @@
                 for (var i = 0; i < events.length; i++) {
                     var event = self._getProcessedEvent(events[i]);
                     eventData.push(event);
-                    self._data.events[event.id] = event;
+                    self._data.eventData[event.id] = event;
                 }
 
-                callback({ events: eventData });
+                callback({events: eventData});
             });
         },
 
         _getProcessedEvent: function (eventData) {
             var self = this;
-            var event = R.cloneDeep(self.__events[eventData.type]);
+            var event = R.cloneDeep(self._data.eventTypes[eventData.type]);
             if (R.isFunction(event.text)) {
                 event.text = event.text.apply(event, [eventData]);
             }
@@ -293,7 +295,6 @@
             event.time = eventData.created_at;
             return event;
         },
-
 
 
         _destroy: function () {

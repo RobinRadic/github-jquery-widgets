@@ -4,6 +4,7 @@
 
 }(function ($, R) {
 
+
     R.template.registerHelper('branchName', function (event) {
         return event.payload.ref.replace('refs/heads/', '');
     });
@@ -11,12 +12,15 @@
         return event.payload.size > 1 ? 's' : ''
     });
 
-    R.template.registerHelper('pushName', function (event) {
-        return event.payload.size > 1 ? 's' : ''
+    R.template.registerHelper('repoName', function (repoName) {
+        return repoName.replace(/([\w-]*)\/([\w-]*)/, '$2');
     });
 
-    R.template.registerHelper('repoName', function (repoName) {
-        return repoName.replace(/RobinRadic\/(\w*)/, '$1');
+    R.template.registerHelper('repoOwner', function (repoName) {
+        return repoName.replace(/([\w-]*)\/([\w-]*)/, '$1');
+    });
+    R.template.registerHelper('evenOdd', function (index, onEven, onOdd) {
+        return index % 2 == 0 ? onEven : onOdd;
     });
 
 
@@ -29,6 +33,7 @@
                 top: '30px'
             }
         },
+
 
         _spin: function (disable) {
             if (this.options.spinner === true) {

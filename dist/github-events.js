@@ -20,21 +20,21 @@ templates['github.events.branch'] = template({"compiler":[6,">= 2.0.0-beta.1"],"
     + "\" target=\""
     + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
     + "\" class=\"btn branch "
-    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs yellow-gold", {"name":"default","hash":{},"data":data})))
-    + "\">\n        "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs btn-blue-grey", {"name":"default","hash":{},"data":data})))
+    + "\">\n        <i class=\"fa fa-code-fork\">&nbsp;</i>"
     + escapeExpression(((helpers.branchName || (depth0 && depth0.branchName) || helperMissing).call(depth0, (depth0 != null ? depth0.event : depth0), {"name":"branchName","hash":{},"data":data})))
     + "\n    </a>\n</script>\n\n";
 },"useData":true});
 templates['github.events.commits'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda;
   return "<script type=\"text/x-handlebars-template\">\n    <a href=\""
-    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.href : depth0), "#", {"name":"default","hash":{},"data":data})))
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.href : depth0), "javascript:;", {"name":"default","hash":{},"data":data})))
     + "\" data-github-event=\""
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.id : stack1), depth0))
     + "\" target=\""
     + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
-    + "\" class=\"commits btn "
-    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs yellow", {"name":"default","hash":{},"data":data})))
+    + "\"\n       title=\"Commit details\" class=\"commits btn "
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn-xs btn-teal", {"name":"default","hash":{},"data":data})))
     + "\">\n        "
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.size : stack1), depth0))
     + " commit"
@@ -42,23 +42,31 @@ templates['github.events.commits'] = template({"compiler":[6,">= 2.0.0-beta.1"],
     + "\n    </a>\n</script>\n\n";
 },"useData":true});
 templates['github.events.commits.popover'] = template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, lambda=this.lambda, escapeExpression=this.escapeExpression, functionType="function", helperMissing=helpers.helperMissing;
-  return "            <li >\n                <div class=\"message\">\n                    <span class=\"arrow\"></span>\n                    <a href=\"#\" class=\"name\">"
-    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.author : depth0)) != null ? stack1.name : stack1), depth0))
-    + "</a>\n                    <span class=\"body\">"
-    + escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"message","hash":{},"data":data}) : helper)))
+  var stack1, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, lambda=this.lambda;
+  return "            <li class=\""
+    + escapeExpression(((helpers.evenOdd || (depth0 && depth0.evenOdd) || helperMissing).call(depth0, (data && data.index), "in", "out", {"name":"evenOdd","hash":{},"data":data})))
+    + "\">\n                <img class=\"avatar\" src=\""
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.author : depth0)) != null ? stack1.avatar_url : stack1), depth0))
+    + "\" alt=\"Avatar\" />\n                <div class=\"commit-message\">\n                    <span class=\"arrow\"></span>\n                    <a href=\"#\" class=\"commit-author\">"
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.commit : depth0)) != null ? stack1.author : stack1)) != null ? stack1.name : stack1), depth0))
+    + "</a>\n                    <span class=\"pull-right\">\n                    <span class=\"label label-success\">+"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.stats : depth0)) != null ? stack1.additions : stack1), depth0))
+    + "</span>\n                    <span class=\"label label-danger\">-"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.stats : depth0)) != null ? stack1.deletions : stack1), depth0))
+    + "</span>\n                        </span>\n                    <br>\n                    <span class=\"commit-body\">"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.commit : depth0)) != null ? stack1.message : stack1), depth0))
     + "</span>\n                </div>\n            </li>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, buffer = "<script type=\"text/x-handlebars-template\">\n    <div class=\"github-events-commits-popover\">\n        <div>\n            <h4 class=\"profile-desc-title\">"
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, buffer = "<script type=\"text/x-handlebars-template\">\n    <div class=\"github-events-commits-popover\">\n        <div>\n            <h4>"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.actor : stack1)) != null ? stack1.login : stack1), depth0))
-    + "</h4>\n            <span class=\"profile-desc-text\"> Pushed "
+    + "</h4>\n            <span class=\"commit-desc\"> Pushed "
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.size : stack1), depth0))
-    + " commits. </span>\n            <div class=\"margin-top-10 profile-desc-link\">\n                <i class=\"fa fa-github\"></i>\n                "
+    + " commits. </span>\n            <div class=\"commit-info\">\n                <i class=\"fa fa-github\"></i>\n                <span>"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.repo : stack1)) != null ? stack1.name : stack1), depth0))
-    + "\n            </div>\n            <div class=\"margin-top-10 profile-desc-link\">\n                <i class=\"fa fa-code-fork\"></i>\n                "
-    + escapeExpression(((helpers.pushName || (depth0 && depth0.pushName) || helperMissing).call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.ref : stack1), {"name":"pushName","hash":{},"data":data})))
-    + "\n            </div>\n        </div>\n\n        <ul class=\"chats margin-top-20\">\n";
-  stack1 = helpers.each.call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.event : depth0)) != null ? stack1.payload : stack1)) != null ? stack1.commits : stack1), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+    + "</span>\n            </div>\n            <div class=\"commit-info\">\n                <i class=\"fa fa-code-fork\"></i>\n                <span>"
+    + escapeExpression(((helpers.branchName || (depth0 && depth0.branchName) || helperMissing).call(depth0, (depth0 != null ? depth0.event : depth0), {"name":"branchName","hash":{},"data":data})))
+    + "</span>\n            </div>\n        </div>\n\n        <ul class=\"commit-commits\">\n";
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.commits : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "        </ul>\n    </div>\n</script>\n";
 },"useData":true});
@@ -114,7 +122,7 @@ templates['github.events.repo'] = template({"1":function(depth0,helpers,partials
     + "\" target=\""
     + escapeExpression(((helper = (helper = helpers.target || (depth0 != null ? depth0.target : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"target","hash":{},"data":data}) : helper)))
     + "\" class=\"repo "
-    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.ownerClass : depth0), "label label-xs label-deep-orange", {"name":"default","hash":{},"data":data})))
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.ownerClass : depth0), "btn btn-xs btn-deep-orange", {"name":"default","hash":{},"data":data})))
     + "\"><i class=\"fa fa-github-alt\"></i> "
     + escapeExpression(((helpers.repoOwner || (depth0 && depth0.repoOwner) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.repo : depth0)) != null ? stack1.name : stack1), {"name":"repoOwner","hash":{},"data":data})))
     + "</a>\n";
@@ -124,7 +132,7 @@ templates['github.events.repo'] = template({"1":function(depth0,helpers,partials
     + "\" target=\""
     + escapeExpression(((helper = (helper = helpers.target || (depth0 != null ? depth0.target : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"target","hash":{},"data":data}) : helper)))
     + "\" class=\"repo "
-    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "label label-xs label-orange", {"name":"default","hash":{},"data":data})))
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn btn-xs btn-orange", {"name":"default","hash":{},"data":data})))
     + "\" title=\""
     + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
     + "\">\n        ";
@@ -174,7 +182,7 @@ templates['github.events.user'] = template({"1":function(depth0,helpers,partials
     + "\" target=\""
     + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0.target : depth0), "_blank", {"name":"default","hash":{},"data":data})))
     + "\" class=\""
-    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "label label-sm label-primary", {"name":"default","hash":{},"data":data})))
+    + escapeExpression(((helpers['default'] || (depth0 && depth0['default']) || helperMissing).call(depth0, (depth0 != null ? depth0['class'] : depth0), "btn btn-xs btn-primary", {"name":"default","hash":{},"data":data})))
     + "\"  "
     + escapeExpression(((helper = (helper = helpers.attributes || (depth0 != null ? depth0.attributes : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"attributes","hash":{},"data":data}) : helper)))
     + " >\n        ";
@@ -324,21 +332,21 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
                         text: function (event) {
                             var str = '';
 
-                             if (event.payload.ref_type === 'tag') {
-                                 this.icon = 'fa fa-tag';
-                                 this.iconColor = 'green';
-                                 str += texts.tag(event.payload);
-                                 str += " tagged by ";
-                             }
+                            if (event.payload.ref_type === 'tag') {
+                                this.icon = 'fa fa-tag';
+                                this.iconColor = 'green';
+                                str += texts.tag(event.payload);
+                                str += " tagged by ";
+                            }
 
                             str += '<div class="btn-group">';
-                            str += texts.user(event.actor, { icon: true, class: 'btn btn-xs btn-orange' });
-                            str += texts.repo(event.repo, { class: 'btn btn-xs btn-primary' });
+                            str += texts.user(event.actor, {icon: true, class: 'btn btn-xs btn-orange'});
+                            str += texts.repo(event.repo, {class: 'btn btn-xs btn-primary'});
                             str += '</div>';
                             //console.log('create event text', str);
                             // str += event.repo.;
                             //console.warn(this);
-                             return str.replace("\n", "");
+                            return str.replace("\n", "");
 
                         }
                     },
@@ -433,14 +441,19 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
                         icon: 'fa fa-save',
                         text: function (event) {
 
-                             return $(document.createElement('span'))
-                             .append(texts.user(event.actor, { icon: true }))
-                             .append(texts.branch(event))
-                             .append(texts.commits(event))
-                             .append(' to ')
-                             .append(texts.repo(event.repo)).html();
+                            return $(document.createElement('span'))
+                                .append(texts.user(event.actor, {icon: true}))
+                                .append(
+                                $(document.createElement('div')).addClass('btn-group')
 
-                           // return 'PushEvent has occured';
+                                    .append(texts.branch(event))
+                                    .append(texts.commits(event))
+                            )
+                                .append(' to ')
+                                .append(texts.repo(event.repo))
+                                .html();
+
+                            // return 'PushEvent has occured';
                         },
                         iconColor: 'success'
                     },
@@ -476,7 +489,8 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
         },
 
         _data: {
-            events: {}
+            eventData: {},
+            eventTypes: {}
         },
 
         repaint: function () {
@@ -502,30 +516,26 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
 
         _create: function () {
             var self = this;
-            self.__cache = {
-                users: {},
-                repos: {},
-                events: {}
-            };
+
             self._data = {
-                events: {}
+                eventData: {},
+                eventTypes: {}
             };
 
             this.$widget = null;
 
             // Create a seperate copy of all event triggers and merge the defaults
-            self.__events = {};
             $.each(this.options.output.events, function (type, event) {
                 if (type === 'default') return;
-                self.__events[type] = $.extend(R.cloneDeep(self.options.output.events.default), event);
+                self._data.eventTypes[type] = $.extend(R.cloneDeep(self.options.output.events.default), event);
             });
 
             this.refresh();
         },
 
 
-        getEvent: function(eventID){
-            return this._data.events[eventID];
+        getEvent: function (eventID) {
+            return this._data.eventData[eventID];
         },
 
         _fetchEventData: function (callback) {
@@ -536,16 +546,16 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
                 for (var i = 0; i < events.length; i++) {
                     var event = self._getProcessedEvent(events[i]);
                     eventData.push(event);
-                    self._data.events[event.id] = event;
+                    self._data.eventData[event.id] = event;
                 }
 
-                callback({ events: eventData });
+                callback({events: eventData});
             });
         },
 
         _getProcessedEvent: function (eventData) {
             var self = this;
-            var event = R.cloneDeep(self.__events[eventData.type]);
+            var event = R.cloneDeep(self._data.eventTypes[eventData.type]);
             if (R.isFunction(event.text)) {
                 event.text = event.text.apply(event, [eventData]);
             }
@@ -555,7 +565,6 @@ templates['github.events.user.popover'] = template({"1":function(depth0,helpers,
             event.time = eventData.created_at;
             return event;
         },
-
 
 
         _destroy: function () {

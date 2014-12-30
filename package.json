@@ -4,14 +4,20 @@
   "description": "github-widgets created by Robin Radic",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec"
   },
   "license": "MIT",
   "author": {
     "name": "Robin Radic",
-    "email": "robin@radic.nl"
+    "email": "robin@radic.nl",
+    "url": "http://robin.radic.nl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robinradic/github-jquery-widgets"
   },
   "devDependencies": {
+    "chai": "^1.10.0",
     "fs-extra": "^0.13.0",
     "grunt": "^0.4.5",
     "grunt-available-tasks": "^0.5.4",
@@ -20,11 +26,19 @@
     "grunt-contrib-sass": "^0.8.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-preprocess": "^4.1.0",
+    "grunt-radic": "^0.1.0",
     "grunt-radic-widget": "^0.0.1",
+    "grunt-string-replace": "^1.0.0",
     "grunt-subgrunt": "^0.4.3",
     "hooker": "^0.2.3",
-    "load-grunt-tasks": "^0.4.0",
-    "lodash": "^2.4.1",
-    "time-grunt": "^0.3.1"
+    "istanbul": "0.3.5",
+    "jquery": "^2.1.3",
+    "jsdoc": "~3.3.0-alpha5",
+    "jsdom": "^2.0.0",
+    "load-grunt-tasks": "0.4.0",
+    "lodash": "2.4.1",
+    "mocha": "2.1.0",
+    "sinon": "1.12.2",
+    "time-grunt": "0.3.1"
   }
 }
