@@ -88,6 +88,7 @@ navigation:
             return this._compile('branch', $.extend({event: event}, options));
         }
     };
+
     /**
      * @namespace radic
      * @namespace radic.githubEvents
@@ -104,6 +105,19 @@ navigation:
          * @property {string} [options.className=gh-events-widget] - The class name that will be applied to the highest html node of the template
          * @property {number} [options.max=60] - The maximum number of events shown
          * @property {number} [options.height=300] - The height you want the widget to be
+         * @property {object} options.output.events - The default output events. Use this if you want to overide the text, icon etc inside an event
+         * @property {object} options.output.events.default - The default event data. Each event will inherit the defaults and overrides it with it's own properties
+         * @property {object} [options.output.events.CommitCommentEvent]
+         * @property {object} [options.output.events.CreateEvent]
+         * @property {object} [options.output.events.DeleteEvent]
+         * @property {object} [options.output.events.DeploymentEvent]
+         * @property {object} [options.output.events.DeploymentStatusEvent]
+         * @property {object} [options.output.events.DownloadEvent]
+         * @property {object} [options.output.events.FollowEvent]
+         * @property {object} [options.output.events.ForkEvent]
+         * @property {object} [options.output.events.ForkApplyEvent]
+         * @property {object} [options.output.events.GistEvent]
+         * @property {object} [options.output.events.GollumEvent]
          * @example
          *  $('#thewidget').githubEvents({
          *      username: 'usah',
@@ -304,32 +318,6 @@ navigation:
             }
         },
 
-
-
-        /**
-         * The output events
-         * @memberOf options
-         * @property {object} output.events - The default output events. Use this if you want to overide the text, icon etc inside an event
-         * @property {object} output.events.default - The default event data. Each event will inherit the defaults and overrides it with it's own properties
-         * @property {object} [output.events.default.icon=fa fa-info] - The icon class
-         * @property {object} [output.events.default.text=A github event has been triggered] - The text to display
-         * @property {object} [output.events.default.iconColor=default] - The icon background color
-         * @property {object} [output.events.CommitCommentEvent]
-         * @property {object} [output.events.CreateEvent]
-         * @property {object} [output.events.DeleteEvent]
-         * @property {object} [output.events.DeploymentEvent]
-         * @property {object} [output.events.DeploymentStatusEvent]
-         * @property {object} [output.events.DownloadEvent]
-         * @property {object} [output.events.FollowEvent]
-         * @property {object} [output.events.ForkEvent]
-         * @property {object} [output.events.ForkApplyEvent]
-         * @property {object} [output.events.GistEvent]
-         * @property {object} [output.events.GollumEvent]
-         */
-
-        /**
-         * Internal data
-         */
         _data: {
             eventData: {},
             eventTypes: {}
