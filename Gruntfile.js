@@ -32,7 +32,7 @@ module.exports = function (grunt) {
                     indexName: 'index.md',
                     frontMatterPath: 'docs/processed-front-matter.yml',
                     readmePath: 'README.md',
-                    replacer: '# github-widgets'
+                    replacer: '# github-jquery-widgets'
                 }
             }
         },
