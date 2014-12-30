@@ -8,7 +8,7 @@ cd $rdir
 cp scripts/pre-commit .git/hooks
 
 echo ">> Updating radicjs submodule"
-git submodule update --remote --force --recursive lib/radicjs
+git submodule update --init --remote --force --recursive lib/radicjs
 cd $rdir/lib/radicjs
 
 echo ">> Installing radicjs npm packages"

@@ -60,7 +60,16 @@ $(function(){
 More information can be found in the [API documentation](http://robin.radic.nl/github-jquery-widgets/)
 
 ## Customizing your build
-By downloading the source using npm, you can create a customized build. You can alter the HTML templates and SCSS.
+By downloading the source, you can create a customized build. You can alter the HTML templates and SCSS.
+  
+### Getting started
+```bash
+git clone https://github.com/robinradic/github-jquery-widgets # or fork->clone a version.
+cd github-jquery-widgets
+./scripts/bootstrap.sh # This will update-init the radicjs submodule and copy the pre-commit hook that updates the submodule before commiting
+npm install
+bower install
+```
   
 **More information soon**
 
