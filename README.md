@@ -6,10 +6,10 @@
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](http://radic.mit-license.org)
 
 [![Example](http://robin.radic.nl/github-jquery-widgets/images/events.jpeg)](http://robin.radic.nl/github-jquery-widgets)
+Check out the [demonstration](http://robin.radic.nl/github-jquery-widgets/demo) or [documentation](http://robin.radic.nl/github-jquery-widgets) for more information.
 
 ## Getting Started
-  
-Check out the [demonstration](http://robin.radic.nl/github-jquery-widgets/demo) or [documentation](http://robin.radic.nl/github-jquery-widgets) for more information.
+You can download the zip file and manually extract the files into your project or use either bower, npm or git.
   
 ### Installing
 ```bash
@@ -19,6 +19,24 @@ bower install --save github-jquery-widgets
 # Using node
 npm install --save github-jquery-widgets
 ```
+
+**Dependencies**
+- jQuery > 1.9
+- jQuery UI Widget Factory
+- Handlebars runtime
+- RadicJS custom build
+  
+  
+**Optional dependencies**
+- spin.js
+- jquery.slimscroll.js
+  
+  
+**Written with, by or in**
+- Javascript
+- SCSS
+- Grunt
+- Bootstrap 3
 
 ### Usage
   

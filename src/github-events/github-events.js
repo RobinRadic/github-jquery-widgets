@@ -1,5 +1,16 @@
-/**
- * Copyright 2014 Robin Radic - All rights reserved.
+/** @fileoverview githubEvents - A jQuery plugin that shows recent repository events
+ *
+ * jQuery Github Events Widget is a plugin that shows recent repository events
+ * Highly customizable options. Multiple ways to build and include into your project.
+ *
+ *
+ * @author Robin Radic
+ * @copyright Robin Radic 2014
+ * @license MIT License
+ * @link https://github.com/robinradic/jquery-github-widgets
+ * @link http://radic.mit-license.org
+ * @version 0.0.1
+ * @summary A jQuery plugin that shows recent repository events
  */
 (function (factory) {
     factory(jQuery, radic);
@@ -35,9 +46,22 @@
             return this._compile('branch', $.extend({event: event}, options));
         }
     };
-
-    $.widget('radic.githubEvents', $.github.widget, {
+    /**
+     * @namespace radic
+     * @namespace radic.githubEvents
+     */
+    $.widget('radic.githubEvents', $.github.widget, /** @lends radic.githubEvents */ {
         version: '0.0.1',
+
+
+        /**
+         * Default options
+         * @property {Object}  options - the default options
+         * @property {String}  options.username - the user login name or id
+         * @property {String}  [options.template=github.events] - The template (file) name
+         * @property {string} [options.className=gh-events-widget] - The class name that will be applied to the highest html node of the template
+         * @property {number} [max=60] - The maximum number of events shown
+         */
         options: {
             username: '',
             template: 'github.events',
@@ -223,6 +247,11 @@
             eventTypes: {}
         },
 
+        /**
+         * Repaints the widget. Usefull in case of option changes
+         * @example
+         * $('#thewidget').githubEvents('repaint');
+         */
         repaint: function () {
             var self = this;
             self._trigger('repaint');
@@ -231,6 +260,11 @@
             self._trigger('repainted');
         },
 
+        /**
+         * Refreshes the data and repaints the widget. Usefull in case of option changes
+         * @example
+         * $('#thewidget').githubEvents('refresh');
+         */
         refresh: function () {
             var self = this;
             self._trigger('refresh');
@@ -263,7 +297,11 @@
             this.refresh();
         },
 
-
+        /**
+         * Refreshes the data and repaints the widget. Usefull in case of option changes
+         * @example
+         * $('#thewidget').githubEvents('getEvent', 123123);
+         */
         getEvent: function (eventID) {
             return this._data.eventData[eventID];
         },
