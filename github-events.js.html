@@ -102,7 +102,7 @@ navigation:
          * @property {String}  options.username - the user login name or id
          * @property {String}  [options.template=github.events] - The template (file) name
          * @property {string} [options.className=gh-events-widget] - The class name that will be applied to the highest html node of the template
-         * @property {number} [max=60] - The maximum number of events shown
+         * @property {number} [options.max=60] - The maximum number of events shown
          */
         options: {
             username: '',
@@ -341,8 +341,20 @@ navigation:
 
         /**
          * Refreshes the data and repaints the widget. Usefull in case of option changes
+         * @param {number} eventID - The id of the event you want to get
+         * @returns {object} event - The event JSON data.
          * @example
          * $('#thewidget').githubEvents('getEvent', 123123);
+         * // returns something likewise. use console.log to see the exact data returned.
+         * {
+         *      icon: "fa fa-save",
+         *      iconColor: "success",
+         *      id: "2487066506",
+         *      link: false,
+         *      raw: "RAW EVENT JSON DATA",
+         *      "time: "2014-12-30T07:51:34Z",
+         *      timeAgo: "8 hours ago",
+         * }
          */
         getEvent: function (eventID) {
             return this._data.eventData[eventID];
