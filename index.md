@@ -33,6 +33,8 @@ navigation:
 
 ## Getting Started
   
+Check out the [demonstration](http://robin.radic.nl/github-jquery-widgets/demo) or [documentation](http://robin.radic.nl/github-jquery-widgets) for more information.
+  
 ### Installing
 {% highlight bash %}
 # Using bower
@@ -43,6 +45,8 @@ npm install --save github-jquery-widgets
 {% endhighlight %}
 
 ### Usage
+  
+#### Dependencies and widget files
 The package ships with seperate files allowing various ways to handle dependencies and to include/exclude widgets.  **tip:** use grunt-usemin or something likewise to concat and minify your js/css.
 {% highlight html %}
 <link href="path/to/dist/github-widgets.css" type="text/css" rel="stylesheet">
@@ -69,6 +73,30 @@ As an alternative, instead of using the packed radic.githubwidgets.js, you can u
 <script src="path/to/dist/github-profile.js"></script>
 <script src="path/to/dist/github-events.js"></script>
 {% endhighlight %}
+
+### Initializing a widget
+{% highlight javascript %}
+$(function(){
+    $('selector').githubProfile({
+        username: 'robinradic'
+    });
+});
+{% endhighlight %}
+More information can be found in the [API documentation](http://robin.radic.nl/github-jquery-widgets/)
+
+## Customizing your build
+By downloading the source, you can create a customized build. You can alter the HTML templates and SCSS.
+  
+### Getting started
+{% highlight bash %}
+git clone https://github.com/robinradic/github-jquery-widgets # or fork->clone a version.
+cd github-jquery-widgets
+./scripts/bootstrap.sh # This will update-init the radicjs submodule and copy the pre-commit hook that updates the submodule before commiting
+npm install
+bower install
+{% endhighlight %}
+  
+**More information soon**
 
 
 ## License
