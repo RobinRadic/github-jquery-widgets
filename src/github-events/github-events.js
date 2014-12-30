@@ -60,7 +60,43 @@
          * @property {String}  options.username - the user login name or id
          * @property {String}  [options.template=github.events] - The template (file) name
          * @property {string} [options.className=gh-events-widget] - The class name that will be applied to the highest html node of the template
-         * @property {number} [max=60] - The maximum number of events shown
+         * @property {number} [options.max=60] - The maximum number of events shown
+         * @property {number} [options.height=300] - The height you want the widget to be
+         * @property {object} options.output.events - The default output events. Use this if you want to overide the text, icon etc inside an event
+         * @property {object} options.output.events.default - The default event data. Each event will inherit the defaults and overrides it with it's own properties
+         * @property {object} [options.output.events.default.icon=fa fa-info] - The icon class
+         * @property {object} [options.output.events.default.text=A github event has been triggered] - The text to display
+         * @property {object} [options.output.events.default.iconColor=default] - The icon background color
+         * @property {object} [options.output.events.CommitCommentEvent]
+         * @property {object} [options.output.events.CreateEvent]
+         * @property {object} [options.output.events.DeleteEvent]
+         * @property {object} [options.output.events.DeploymentEvent]
+         * @property {object} [options.output.events.DeploymentStatusEvent]
+         * @property {object} [options.output.events.DownloadEvent]
+         * @property {object} [options.output.events.FollowEvent]
+         * @property {object} [options.output.events.ForkEvent]
+         * @property {object} [options.output.events.ForkApplyEvent]
+         * @property {object} [options.output.events.GistEvent]
+         * @property {object} [options.output.events.GollumEvent]
+         * @example
+         *  $('#thewidget').githubEvents({
+         *      username: 'usah',
+         *      output: {
+         *          events: {
+         *              IssueCommentEvent: {
+         *                  icon: 'fa fa-edit',
+         *                  iconColor: 'default',
+         *                  text: 'The new issues event text'
+         *              },
+         *              IssueEvent: {
+         *                  text: function(event){
+         *                      console.log(event);
+         *                      return '<a hreft="#" class="btn btn-xs btn-default">' + event.author.name + '</a>';
+         *                  }
+         *              }
+         *          }
+         *      }
+         *  });
          */
         options: {
             username: '',
@@ -298,9 +334,22 @@
         },
 
         /**
-         * Refreshes the data and repaints the widget. Usefull in case of option changes
+         * Get a specific event. Every event row has a data attribute (data-github-event) containing the relative event id.
+         * You can use this to fetch the event information
+         * @param {number} eventID - The id of the event you want to get
+         * @returns {object} event - The event JSON data.
          * @example
          * $('#thewidget').githubEvents('getEvent', 123123);
+         * // returns something likewise. use console.log to see the exact data returned.
+         * {
+         *      icon: "fa fa-save",
+         *      iconColor: "success",
+         *      id: "2487066506",
+         *      link: false,
+         *      raw: "RAW EVENT JSON DATA",
+         *      time: "2014-12-30T07:51:34Z",
+         *      timeAgo: "8 hours ago",
+         * }
          */
         getEvent: function (eventID) {
             return this._data.eventData[eventID];
