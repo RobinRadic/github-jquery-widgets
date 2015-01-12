@@ -1,0 +1,196 @@
+---
+layout: page
+title: Github JS Widgets
+minify_content: false
+navigation:
+  - name: Home
+    link: /
+    icon: fa fa-home
+  - name: Overview
+    link: /github-jquery-widgets
+    icon: fa fa-dashboard
+  - name: Demonstration
+    link: /github-jquery-widgets/demo
+    icon: fa fa-forward
+  - name: Coverage
+    link: /github-jquery-widgets/coverage
+    icon: fa fa-code
+  - name: Namespaces
+    link: "#"
+    icon: fa fa-mortar-board
+    children:
+      - name: githubEvents
+        link: /github-jquery-widgets/radic.githubEvents.html
+      - name: githubPopover
+        link: /github-jquery-widgets/radic.githubPopover.html
+      - name: githubProfile
+        link: /github-jquery-widgets/radic.githubProfile.html
+
+---
+
+<link type="text/css" rel="stylesheet" href="styles/jsdoc-radic.css">
+
+
+<ul class="nav nav-tabs hide">
+    <li><a href="index.html">Overview</a></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Namespaces<i class="fa fa-angle-down"></i></a><ul class="dropdown-menu" role="menu"><li><a href="radic.githubEvents.html">githubEvents</a></li><li><a href="radic.githubPopover.html">githubPopover</a></li><li><a href="radic.githubProfile.html">githubProfile</a></li></ul></li>
+</ul>
+
+<div id="main">
+    
+
+
+
+    
+            {% highlight javascript %}
+            /** @fileoverview githubPopover - A jQuery plugin
+ * Highly customizable options. Multiple ways to build and include into your project.
+ *
+ *
+ * @author Robin Radic
+ * @copyright Robin Radic 2014
+ * @license MIT License
+ * @link https://github.com/robinradic/github-jquery-widgets
+ * @link http://radic.mit-license.org
+ * @version 0.0.1
+ * @summary A jQuery plugin
+ */
+(function (factory) {
+
+    factory(jQuery, radic);
+
+}(function ($, R) {
+    /**
+     * @namespace radic
+     * @namespace radic.githubPopover
+     */
+    $.widget('radic.githubPopover', $.github.widget, /** @lends radic.githubPopover */ {
+        version: '0.0.1',
+
+        options: {
+            type: null,
+            bindPopover: function ($el, options) {
+                return $el.popover(options);
+            },
+            popover: {
+                html: true,
+                trigger: 'focus',
+                container: 'body',
+                placement: 'right',
+                template: '&lt;div class="popover popover-github" role="tooltip">&lt;div class="arrow">&lt;/div>&lt;h3 class="popover-title">&lt;/h3>&lt;div class="popover-content">&lt;/div>&lt;/div>'
+            },
+            event: {},
+            user: {},
+            repo: {}
+        },
+
+        _data: {},
+        _types: ['event', 'repo', 'user'],
+
+        refresh: function () {
+            var self = this;
+            self.data = {};
+            self._trigger('refresh');
+            self.element.html('');
+            self._spin();
+
+            self._getData(function () {
+                self._spin(false);
+                self.repaint();
+                self._trigger('refreshed');
+                R.github.async(true);
+            });
+        },
+
+        repaint: function () {
+            var self = this;
+            self._trigger('repaint');
+            self.element.html('');
+            var $template = self._compile(self.options.template, $.extend({options: self.options}, self._data));
+            self.element.html($template);
+            self._trigger('repainted');
+        },
+
+        _create: function () {
+             if (!R.isString(this.options.type) || this._types.indexOf(this.options.type) === -1) {
+                console.error('githubPopover requires a valid type (' + this._types.join(', ') + '). "');
+                return;
+            }
+            var fn = this['_popover_' + this.options.type]()
+        },
+
+        _bindPopover: function ($el, options) {
+            options = _.extend(options, this.options.popover, {
+                content: function () {
+                    /*var eventId = $(this).data('github-event');
+                     var $widget = $(self).githubEvents('instance');
+                     var event = $widget.getEvent(eventId).raw;
+                     var commits = [];
+                     var repoSplit = function(repoName, give){
+                     return repoName.replace(/([\w-]*)\/([\w-]*)/, give === 'owner' ? '$1' : '$2');
+                     };
+
+                     R.github.async(false);
+                     $.each(event.payload.commits, function(i, commit){
+                     if(i > 5) return;
+                     commits.push(R.github.repos.commitsSha(repoSplit(event.repo.name, 'owner'), repoSplit(event.repo.name), commit.sha).data);
+                     });
+                     R.github.async(true);
+
+                     console.log('commits popover', commits);
+                     return $widget._compile('github.events.commits.popover', {event: event, commits: commits });*/
+                }
+            });
+            return $el.popover(options);
+        },
+
+        _popover_user: function () {
+            var self = this;
+
+            this.options.bindPopover(this.element, {
+
+                html: true,
+                content: function(){
+                    R.github.async(false);
+                    var login = self.element.data('github-user');
+                    var user = R.github.users(login);
+                    console.log('user', user.data);
+                    R.github.async(true);
+                    var compiled = self._compile('github.popover.user', user.data);
+                    console.log('compiled', compiled[0].outerHTML)
+                    return compiled[0].outerHTML;
+                }
+            })
+
+        },
+
+        _destroy: function () {
+            this.element.html('');
+            this._trigger('destroyed', null);
+        }
+    });
+
+
+    $.radic.githubPopover.redo = function(){
+        $('*[data-github-popover]').each(function () {
+            var $this = $(this);
+            var type = $this.data('github-popover');
+            console.log('popoveah');
+            $this.githubPopover({
+                type: type
+            });
+        });
+    };
+
+    $(function() {
+        $.radic.githubPopover.redo();
+    });
+
+}));
+
+            {% endhighlight %}
+
+
+
+
+
+</div>

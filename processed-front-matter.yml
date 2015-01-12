@@ -20,5 +20,7 @@ navigation:
     children:
       - name: githubEvents
         link: /github-jquery-widgets/radic.githubEvents.html
+      - name: githubPopover
+        link: /github-jquery-widgets/radic.githubPopover.html
       - name: githubProfile
         link: /github-jquery-widgets/radic.githubProfile.html
